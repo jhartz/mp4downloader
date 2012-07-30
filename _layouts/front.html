@@ -1,0 +1,31 @@
+---
+# NOTE: Don't forget to copy this file to gh-pages branches in other repos when you update it!
+---
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{{ page.title | escape }}</title>{% if page.atomfeed %}
+    <link rel="alternate" type="application/atom+xml" title="Ramblings by Jake &raquo; Feed" href="/blog/atom.xml">{% endif %}
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" media="screen,tv,projection" href="/style.css">
+</head>
+
+<body>{% if page.centered %}
+<table style="border: none;">
+<tbody><tr><td>{% endif %}
+    <div id="content">{% if page.homebtn %}
+        <nav class="left"><ul><li><a href="/">Home</a></li></ul></nav>{% endif %}
+
+{{ content }}
+    </div>
+    <!--[if IE]>
+    <footer><a href="http://www.mozilla.com/firefox/features/">A Better Browser</a></footer>
+    <![endif]-->
+{% if page.centered %}    <div><br><br></div>
+</td></tr></tbody>
+</table>
+{% endif %}</body>
+</html>
