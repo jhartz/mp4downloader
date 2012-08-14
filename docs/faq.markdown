@@ -1,5 +1,5 @@
 ---
-template: mp4downloader
+layout: mp4downloader
 titlestub: FAQ - Docs
 dir: ..
 ---

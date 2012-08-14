@@ -1,5 +1,5 @@
 ---
-template: mp4downloader
+layout: mp4downloader
 titlestub: Sync to iPod - Docs
 dir: ..
 ---
