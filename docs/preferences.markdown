@@ -39,7 +39,7 @@ MP4 Downloader allows you to customize many options in its options dialog. To ac
 
 <details>
 <summary>Customize Default filename</summary>
-<div>These option allow you to customize the default filename (the one that automatically appears in the "Save As" box). By default, this is just the video title, but you can customize it by using the pre-defined options or creating your own by following [a special syntax](selective-content-replacement.md).</div>
+<div>These option allow you to customize the default filename (the one that automatically appears in the "Save As" box). By default, this is just the video title, but you can customize it by using the pre-defined options or creating your own by following [a special syntax](selective-content-replacement.html).</div>
 </details>
 
 For a more technical explanation of MP4 Downloader's preferences, see: [http://www.mozdev.org/source/browse/mp4downloader/src/1.3.x/defaults/preferences/mp4downloader.js](http://www.mozdev.org/source/browse/mp4downloader/src/1.3.x/defaults/preferences/mp4downloader.js?rev=HEAD;content-type=text%2Fplain)
