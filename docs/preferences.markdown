@@ -1,6 +1,6 @@
 ---
 layout: mp4downloader
-titlestub: Preferences - Docs
+title: Preferences - Docs
 dir: ..
 ---
 ## Preferences

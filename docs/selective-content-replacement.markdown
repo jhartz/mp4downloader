@@ -1,6 +1,6 @@
 ---
 layout: mp4downloader
-titlestub: Selective Content Replacement - Docs
+title: Selective Content Replacement - Docs
 dir: ..
 ---
 ## Selective Content Replacement

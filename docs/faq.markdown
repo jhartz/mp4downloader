@@ -1,6 +1,6 @@
 ---
 layout: mp4downloader
-titlestub: FAQ - Docs
+title: FAQ - Docs
 dir: ..
 ---
 ## FAQ
