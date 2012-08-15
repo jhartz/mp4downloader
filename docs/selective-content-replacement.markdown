@@ -1,7 +1,7 @@
 ---
 layout: mp4downloader
 title: Selective Content Replacement - Docs
-dir: ..
+dir: ".."
 ---
 ## Selective Content Replacement
 
@@ -11,20 +11,20 @@ If you are looking for a method of parsing strings using Selective Content Repla
 
 ### Table of Contents
 
-- [Variables](#Variables)
-  - [List of Variables](#ListOfVariables)
-- [If statements](#IfStatements)
-  - [Operands](#Operands)
-- [Examples](#Examples)
+- [Variables](#variables)
+    - [List of Variables](#list_of_variables)
+- [If statements](#if_statements)
+    - [Operands](#operands)
+- [Examples](#examples)
 
-<h3 id="Variables">Variables</h3>
+### Variables
 
 - Variables are written as `%%VAR` (two percent signs (%%) followed by the variable name).
 - All variables will be replaced by their corresponding values at runtime.
 - All variables MUST be in uppercase text.
 - Nothing happens to strings that aren't variables, even if they start with %%, so escaping percent signs is not necessary.
 
-<h4 id="ListOfVariables">List of Variables</h4>
+#### List of Variables
 
 Variables for the Default Filename preference:
 
@@ -54,7 +54,7 @@ These variables (added in version 1.3.3 - still under development) may not conta
 
 - `%%AUTHOR` - replaced with the video author
 
-<h3 id="IfStatements">*If* statements</h3>
+### *If* statements
 
 An *if* statement can be used to only show text if a certain variable has a certain value or matches a certain regular expression.
 
@@ -76,7 +76,7 @@ Basic rules:
 - `]]` should not appear ANYWHERE inside *if* statements. This can also produce unexpected results.
 - Variables cannot be used for testing values inside *if* statements (`[[if %%VAR is %%ANOTHERVAR]]stuff[[endif]]` is invalid, although `[[if %%VAR is VALUE]]%%ANOTHERVAR[[endif]]` is still OK).
 
-<h4 id="Operands">Operands</h4>
+#### Operands
 
 - Use "is" to test if a variable equals a value: `[[if %%VAR is VALUE]]stuff to display[[endif]]`
 - Use "isnot" to test if a variable does not equal a value: `[[if %%VAR isnot VALUE]]stuff to display[[endif]]`
@@ -84,7 +84,7 @@ Basic rules:
 
 NOTE: Be sure to escape any backslashes in *if* statements! Example: `[[if %%VAR matches .*\.js]]` should be `[[if %%VAR matches .*\\.js]]`
 
-<h3 id="Examples">Examples</h3>
+### Examples
 
 - `%%TITLE ([[if %%HQ is 1]]HD from [[endif]]%%SITE)` will transform into *My Awesome Video (YouTube)* for a standard YouTube video or *My Awesome Video (HD from YouTube)* for an HD version of that video.
 - `[[if %%TITLE matches (from|by) Bob$]]A video from my friend[[else]]%%TITLE[[endif]]` will transform into *A video from my friend* for a video titled "blah blah from Bob" or "blah blah by Bob" or just the video title for any other video.
