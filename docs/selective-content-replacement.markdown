@@ -9,18 +9,6 @@ MP4 Downloader's Selective Content Replacement allows certain preferences to be 
 
 If you are looking for a method of parsing strings using Selective Content Replacement, see the `parseString` function in: [http://www.mozdev.org/source/browse/mp4downloader/src/1.3.x/modules/util.jsm](http://www.mozdev.org/source/browse/mp4downloader/src/1.3.x/modules/util.jsm?rev=HEAD;content-type=text/plain)
 
-### Table of Contents
-
-{:toc}
-
-<!--
-- [Variables](#variables)
-  - [List of Variables](#list_of_variables)
-- [If statements](#if_statements)
-  - [Operands](#operands)
-- [Examples](#examples)
--->
-
 ### Variables
 
 - Variables are written as `%%VAR` (two percent signs (%%) followed by the variable name).
