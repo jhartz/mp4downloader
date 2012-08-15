@@ -11,11 +11,11 @@ If you are looking for a method of parsing strings using Selective Content Repla
 
 ### Table of Contents
 
-- [Variables](#variables)
-    - [List of Variables](#list_of_variables)
-- [If statements](#if_statements)
-    - [Operands](#operands)
-- [Examples](#examples)
+- [Variables](#variables).
+  - [List of Variables](#list_of_variables).
+- [If statements](#if_statements).
+  - [Operands](#operands).
+- [Examples](#examples).
 
 ### Variables
 
