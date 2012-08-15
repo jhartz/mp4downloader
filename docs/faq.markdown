@@ -1,7 +1,7 @@
 ---
 layout: mp4downloader
 title: FAQ - Docs
-dir: ..
+dir: ".."
 ---
 ## FAQ
 
