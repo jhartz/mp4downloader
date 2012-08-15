@@ -5,17 +5,21 @@ dir: ".."
 ---
 ## Selective Content Replacement
 
-MP4 Downloader's Selective Content Replacement allows certain preferences to be written in a special syntax in which certain values are substituted in for generic variable names. It also allows the use of "<a href="#Ifstatements">*if* statements</a>" to control content.
+MP4 Downloader's Selective Content Replacement allows certain preferences to be written in a special syntax in which certain values are substituted in for generic variable names. It also allows the use of "[<em>if</em> statements](#if_statements)" to control content.
 
 If you are looking for a method of parsing strings using Selective Content Replacement, see the `parseString` function in: [http://www.mozdev.org/source/browse/mp4downloader/src/1.3.x/modules/util.jsm](http://www.mozdev.org/source/browse/mp4downloader/src/1.3.x/modules/util.jsm?rev=HEAD;content-type=text/plain)
 
 ### Table of Contents
 
-- [Variables](#variables).
-  - [List of Variables](#list_of_variables).
-- [If statements](#if_statements).
-  - [Operands](#operands).
-- [Examples](#examples).
+{:toc}
+
+<!--
+- [Variables](#variables)
+  - [List of Variables](#list_of_variables)
+- [If statements](#if_statements)
+  - [Operands](#operands)
+- [Examples](#examples)
+-->
 
 ### Variables
 
