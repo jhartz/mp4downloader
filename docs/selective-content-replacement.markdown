@@ -1,7 +1,6 @@
 ---
 layout: mp4downloader
 title: Selective Content Replacement - Docs
-dir: ".."
 ---
 ## Selective Content Replacement
 

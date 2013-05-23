@@ -1,7 +1,6 @@
 ---
 layout: mp4downloader
 title: Sync to iPod - Docs
-dir: ".."
 ---
 ## Sync to iPod
 
