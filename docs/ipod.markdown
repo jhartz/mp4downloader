@@ -24,5 +24,5 @@ If you have any issues syncing a video to your iPod, please [contact us](../cont
 
 [!["Movies tab"][movies-small]][movies]
 
-[movies-small]: http://mp4downloader.mozdev.org/movies-small.png
-[movies]: http://mp4downloader.mozdev.org/movies.png
+[movies-small]: ../images/movies-small.png
+[movies]: ../images/movies.png
