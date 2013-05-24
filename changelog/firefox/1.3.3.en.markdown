@@ -8,10 +8,4 @@ title: Changelog - 1.3.3 (beta) for Firefox
 
 Since this is a beta/nightly version of MP4 Downloader, it would help us a lot if you could test some of these new features and bug fixes (especially the new Selective Content Replacement variables, compatibility with HTTPS Everywhere, and general video downloading from all supported sites) and [contact us](/mp4downloader/contact.html) with your results.
 
-- Added option to automatically save videos to a certain directory
-- Fixed many YouTube and Dailymotion bugs
-- Added more possible variables for preferences that use [Selective Content Replacement](/mp4downloader/docs/selective-content-replacement.html)
-- Improved compatibility with Flashblock and HTTPS Everywhere
-- Improved support for downloading videos embedded in web pages
-- Added support for YouTube's Feather interface and HTML5 players from YouTube, Dailymotion, and Vimeo
-- Added possibility of localization (to help translate, [contact us](/mp4downloader/contact.html))
+{% include 1.3.3.en.markdown %}

@@ -6,7 +6,4 @@ title: Changelog - 1.3.2.1 for Firefox
 
 ### Version 1.3.2.1 for Firefox
 
-- Fixed YouTube downloading issues caused by recent YouTube site update
-- Fixed Dailymotion downloading issues
-- Fixed Vimeo video page button after Vimeo site update
-- Fixed broken links in "Options" caused by MP4 Downloader website migration
+{% include 1.3.2.1.en.markdown %}
