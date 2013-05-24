@@ -73,18 +73,4 @@ cvs -z3 -d :pserver:guest@mozdev.org:/cvs co mp4downloader</pre>
     <li>When a bugfix is needed on a released version of MP4 Downloader, a new branch is created based on the tag that was assigned to that version's codebase. The new branch is named something like <code>2.1.x</code> (based on major release "2.1" or tag "v2.1"). We would just keep that branch there, making a new tag inside it for each new minor release based on "v2.1". When a new major version is released (ie. "v2.2"), that branch can be <a href="http://stackoverflow.com/a/2343746">deleted</a> - any new bugfixes will go on in a new branch based on the new major version.</li>
 </ul>
 <p>Some inspiration from: <a href="http://nvie.com/posts/a-successful-git-branching-model/">http://nvie.com/posts/a-successful-git-branching-model/</a></p>
-
-<h3>Changelog Format</h3>
-<p>The MP4 Downloader changelog (<a href="http://mp4downloader.mozdev.org/changelog-firefox.en.txt">http://mp4downloader.mozdev.org/changelog-firefox.en.txt</a>) is a <a href="http://www.yaml.org/">YAML</a> file, defined in this format:</p>
-<ul>
-    <li>Version number
-        <ul>
-            <li><code>notes:</code> - a list of each significant change in the release*</li>
-            <li><code>url:</code> - a string containing a URL with a list of significant changes*</li>
-            <li><code>status:</code> (optional) - a string defining the release status of the version; can be either "beta" or "nightly" (defining this version as a pre-release version) or "fresh" (defining that this is a newer version and users of older versions should not yet be prompted to upgrade)</li>
-            <li><code>notice:</code> (optional) - a string containing a notice or extra information to accompany the changelog</li>
-        </ul>
-    </li>
-</ul>
-<p>* You must include either <code>notes</code> or <code>url</code> in each changelog entry. (These options are mutually exclusive - you need to include one, and only one, of them.)</p>
 -->
