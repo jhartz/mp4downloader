@@ -6,6 +6,6 @@
 <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />
 </head>
 <body>
-{% capture changelog %}{% include 1.3.2.en.markdown %}{% endcapture %}{{ changelog | xml_escape | newline_to_br }}
+{% capture changelog %}{% include 1.3.2.en.markdown %}{% endcapture %}{{ changelog | markdownify | remove:'<ul>' | remove:'</ul>' | remove:'<ol>' | remove:'</ol>' | replace:'<li>','<p>* ' | replace:'</li>','</p>' }}
 </body>
 </html>
