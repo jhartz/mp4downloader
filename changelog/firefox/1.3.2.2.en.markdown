@@ -1,0 +1,9 @@
+---
+layout: mp4downloader
+title: Changelog - 1.3.2.2 for Firefox
+---
+## [MP4 Downloader Changelog](/mp4downloader/changelog/)
+
+### Version 1.3.2.2 for Firefox
+
+- Fixed button embedded in YouTube page for new YouTube layout
