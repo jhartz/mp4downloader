@@ -1,0 +1,4 @@
+- Fixed YouTube downloading issues caused by recent YouTube site update
+- Fixed Dailymotion downloading issues
+- Fixed Vimeo video page button after Vimeo site update
+- Fixed broken links in "Options" caused by MP4 Downloader website migration

@@ -1,0 +1,2 @@
+- Fixed a YouTube downloading bug caused by a YouTube site update
+- Fixed a bug that caused some characters to be cut off of the default filename for YouTube videos

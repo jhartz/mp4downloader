@@ -1,0 +1,5 @@
+- Fixed a bug that stopped downloading of some Vimeo videos
+- Fixed a bug that stopped downloading of some embedded Facebook videos
+- Added options to customize the default file name
+- Updated DownThemAll support for the release of DownThemAll 2.0 (MP4 Downloader will now automatically set the correct title when using DownThemAll OneClick - to achieve the same effect when not using OneClick, change the renaming mask to *\*text\*.mp4* when adding/saving the download)
+- Fixed default toolbar button position bug in Firefox 4 (only applies to new installs, not updates)

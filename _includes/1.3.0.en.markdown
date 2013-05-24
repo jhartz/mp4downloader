@@ -1,0 +1,7 @@
+- Support for HD downloads from [YouTube](http://www.youtube.com/)
+- Better performance and stability when downloading YouTube videos (including support for [youtube-nocookie.com](http://www.youtube-nocookie.com))
+- Removed Google Video support (this has been broken for a while; now it is officially gone)
+- New support for downloading MP4 videos from [Dailymotion](http://www.dailymotion.com/), [Facebook Video](http://www.facebook.com/video/), and [Vimeo](http://www.vimeo.com/)
+- New option to embed download buttons inside the video web page
+- Support for downloading from the context menu of a link to a video
+- Other numerous bug fixes
