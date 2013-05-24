@@ -6,4 +6,4 @@ title: Changelog - 1.3.2.2 for Firefox
 
 ### Version 1.3.2.2 for Firefox
 
-{% include 1.3.2.2.en.html %}
+{% include 1.3.2.2.en.markdown %}
