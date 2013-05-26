@@ -1,0 +1,43 @@
+---
+layout: mp4downloader
+title: Download for Mozilla Firefox
+---
+<h2>Download for Mozilla Firefox</h2>
+<img src="../images/firefox.png" style="float: left; margin: 5px;">
+<h3>Version 1.3 (Firefox 3.0+)</h3>
+<p><a href="http://downloads.mozdev.org/mp4downloader/mp4downloader.xpi" hash="sha1:1901c6d76a55e2876611fcdf1bd77acbe642661b" class="InstallTrigger">Click here</a> to download version 1.3.2.2 (the latest stable release).</p>
+<p>MP4 Downloader is also available from <a href="https://addons.mozilla.org/addon/mp4-downloader?src=external-downloadpage">Mozilla Add-ons</a>, but the Mozilla Add-ons version is usually much slower at receiving updates when a new version is released.</p>
+
+<h3>Version 1.2 (Firefox 1.5 - 3.6)</h3>
+<p>This is the older branch for old versions of Firefox. This branch is still maintained with some updates, but new features will not be added. To download the latest version in this branch (version 1.2.15), <a href="http://downloads.mozdev.org/mp4downloader/mp4downloader-old.xpi" hash="sha1:9e827c06d39d2353c07b34e3cbb84fefe4ea859e" class="InstallTrigger">click here</a>.</p>
+
+<h3>Development</h3>
+<p>If you are interested in trying a beta version of MP4 Downloader, see the <a href="../development.html">development page</a>.</p>
+
+<script type="text/javascript">
+function triggerClick(trigger) {
+    trigger.addEventListener("click", function (event) {
+        if (window.InstallTrigger) {
+            console.log("using InstallTrigger");
+            event.preventDefault();
+            InstallTrigger.install({
+                "MP4 Downloader": {
+                    URL: trigger.getAttribute("href"),
+                    IconURL: "http://mp4downloader.mozdev.org/logo32.png",
+                    Hash: trigger.getAttribute("hash"),
+                    toString: function () {
+                        return trigger.getAttribute("href");
+                    }
+                }
+            });
+        }
+    }, false);
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    var triggers = document.getElementsByClassName("InstallTrigger");
+    for (var i = 0; i < triggers.length; i++) {
+        triggerClick(triggers[i]);
+    }
+}, false);
+</script>
