@@ -1,6 +1,6 @@
 ---
 layout: mp4downloader
-title: Selective Content Replacement - Docs
+title: Selective Content Replacement - Documentation
 ---
 ## Selective Content Replacement
 

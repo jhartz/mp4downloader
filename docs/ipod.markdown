@@ -1,6 +1,6 @@
 ---
 layout: mp4downloader
-title: Sync to iPod - Docs
+title: Sync to iPod - Documentation
 ---
 ## Sync to iPod
 
