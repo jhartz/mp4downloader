@@ -1,0 +1,10 @@
+TODO
+----
+
+Localization... When we have changelogs in other languages, the index can be changed so the link to each changelog looks like...
+
+- 1.3.3: [English](#) [Español](#) ...
+
+Also, each changelog file can have links to the same file in other languages.
+
+We shouldn't need to localize the index files; there's almost no actual English in them besides the word "Changelog" and items such as "MP4 Downloader for Firefox", which are enough like product names anyway w=that we shouldn't really need to localize them.
