@@ -6,7 +6,7 @@ title: Sync to iPod - Docs
 
 To sync a video to your iPod, follow these steps:
 
-1. Download an MP4 video using [MP4 Downloader](/mp4downloader/).
+1. Download an MP4 video using [MP4 Downloader](../download.html).
 1. Connect your iPod and open iTunes.
 1. Go to *File* **>** *Add File To Library* and locate the file you downloaded.
 
