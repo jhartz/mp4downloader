@@ -1,15 +1,15 @@
 ---
 layout: mp4downloader
-title: Selective Content Replacement - Documentation
+title: Reemplazo de Contenido Selectiva - Documentación
 langs:
   - name: English
     page: "../docs/selective-content-replacement.html"
   - name: "Español"
     page: "../docs-es/selective-content-replacement.html"
 ---
-## Selective Content Replacement
+## Reemplazo de Contenido Selectiva
 
-MP4 Downloader's Selective Content Replacement allows certain preferences to be written in a special syntax in which certain values are substituted in for generic variable names. It also allows the use of "[<em>if</em> statements](#if_statements)" to control content.
+Reemplazo de contenido selectiva de MP4 Downloader allows certain preferences to be written in a special syntax in which certain values are substituted in for generic variable names. It also allows the use of "[<em>if</em> statements](#if_statements)" to control content.
 
 If you are looking for a method of parsing strings using Selective Content Replacement, see the `parseString` function in: [http://www.mozdev.org/source/browse/mp4downloader/src/1.3.x/modules/util.jsm](http://www.mozdev.org/source/browse/mp4downloader/src/1.3.x/modules/util.jsm?rev=HEAD;content-type=text/plain)
 

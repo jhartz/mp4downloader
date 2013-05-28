@@ -1,19 +1,20 @@
 ---
 layout: mp4downloader
-title: Sync to iPod - Documentation
+title: Sincronizar a iPod - Documentación
+lang: es
 langs:
   - name: English
     page: "../docs/ipod.html"
   - name: "Español"
     page: "../docs-es/ipod.html"
 ---
-## Sync to iPod
+## Sincronizar a iPod
 
-To sync a video to your iPod, follow these steps:
+Para sincronizar un video a tu iPod, siga estos pasos:
 
-1. Download an MP4 video using [MP4 Downloader](../download.html).
-1. Connect your iPod and open iTunes.
-1. Go to *File* **>** *Add File To Library* and locate the file you downloaded.
+1. Descarga un video MP4 usando [MP4 Downloader](../download-es.html).
+1. Conecta tu iPod y abre iTunes.
+1. Va a *Archivo* **>** *Agregar archivo a la biblioteca* y localiza el archivo que descargaste.
 
 If this is the first time you are importing an MP4 Downloader video to your iPod, you may need to enable movie syncing by following these steps:
 
