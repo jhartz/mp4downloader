@@ -1,6 +1,7 @@
 ---
 layout: mp4downloader
 title: Reemplazo de Contenido Selectiva - Documentación
+lang: es
 langs:
   - name: English
     page: "../docs/selective-content-replacement.html"
