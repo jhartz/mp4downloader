@@ -4,4 +4,5 @@
 - Improved compatibility with Flashblock and HTTPS Everywhere
 - Improved support for downloading videos embedded in web pages
 - Added support for YouTube's Feather interface and HTML5 players from YouTube, Dailymotion, and Vimeo
+- Added SeaMonkey support
 - Added possibility of localization (to help translate, [contact us](/mp4downloader/contact.html))
