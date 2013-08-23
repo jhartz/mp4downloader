@@ -1,8 +1,13 @@
 - Added option to automatically save videos to a certain directory
-- Fixed many YouTube and Dailymotion bugs
+- Fixed many issues with downloading from YouTube, Dailymotion, and Vimeo
 - Added more possible variables for preferences that use [Selective Content Replacement](/mp4downloader/docs/selective-content-replacement.html)
-- Improved compatibility with Flashblock and HTTPS Everywhere
+- Improved compatibility with Flashblock and HTTPS Everywhere add-ons
 - Improved support for downloading videos embedded in web pages
 - Added support for YouTube's Feather interface and HTML5 players from YouTube, Dailymotion, and Vimeo
 - Added SeaMonkey support
 - Added possibility of localization (to help translate, [contact us](/mp4downloader/contact.html))
+
+Known Issues:
+
+- Downloading Facebook videos usually doesn't work
+- Special videos on YouTube (VEVO music videos, full-length movies, etc.) usually won't download

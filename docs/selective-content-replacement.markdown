@@ -9,7 +9,7 @@ langs:
 ---
 ## Selective Content Replacement
 
-MP4 Downloader's Selective Content Replacement allows certain preferences to be written in a special syntax in which certain values are substituted in for generic variable names. It also allows the use of "[<em>if</em> statements](#if_statements)" to control content.
+MP4 Downloader's Selective Content Replacement allows MP4 Downloader file name and location preferences to be written in a special syntax in which certain values are substituted in for generic variable names. It also allows the use of "[<em>if</em> statements](#if_statements)" to control content.
 
 If you are looking for a method of parsing strings using Selective Content Replacement, see the `parseString` function in: [http://www.mozdev.org/source/browse/mp4downloader/src/1.3.x/modules/util.jsm](http://www.mozdev.org/source/browse/mp4downloader/src/1.3.x/modules/util.jsm?rev=HEAD;content-type=text/plain)
 
@@ -22,16 +22,17 @@ If you are looking for a method of parsing strings using Selective Content Repla
 
 #### List of Variables
 
-Variables for the Default Filename preference:
+Variables related to the video being downloaded:
 
-- `%%TITLE` - replaced with the current video title
+- `%%TITLE` - replaced with the current video's title
+- `%%AUTHOR` - replaced with the current video's author (may not be present on some videos)
 - `%%HQ` - replaced with 1 if the video is currently being downloaded in high-quality/high-definition or 0 if it is not (NOTE: The variable is `%%HQ`, not `%%HD`)
 - `%%SITE` - replaced with the current site from which the video is being downloaded
 - `%%DOWNURL` - replaced with the direct URL of the video
 - `%%PAGEURL` - replaced with the URL of the video page that the video was on (ie. http://www.youtube.com/watch?v=...)
 - `%%DTA` - replaced with 1 if DownThemAll is being used to download the video or 0 if it is not
 
-Added in MP4 Downloader version 1.3.3 (still under development):
+Variables related to the current time and date:
 
 - `%%YEAR` - replaced with the current year (4 digits)
 - `%%SHORTYEAR` - replaced with the current year (2 digits)
@@ -43,12 +44,7 @@ Added in MP4 Downloader version 1.3.3 (still under development):
 - `%%FULLHOUR` - replaced with the current 2-digit hour from a 24-hour clock (0 - 23)
 - `%%MINUTE` - replaced with the current 2-digit minute
 - `%%SECOND` - replaced with the current 2-digit second
-- `%%NUM` - replaced with the count of how many videos were downloaded so far today (ie. the 5th video downloaded today would be "5") - **NOT YET IMPLEMENTED**
 - NOTE: To check AM/PM, you can use: `[[if %%FULLHOUR matches ^(1[2-9]|2[0-3])$]]PM[[else]]AM[[endif]]`
-
-These variables (added in version 1.3.3 - still under development) may not contain data on some videos:
-
-- `%%AUTHOR` - replaced with the video author
 
 ### *If* statements
 
@@ -81,6 +77,8 @@ Basic rules:
 NOTE: Be sure to escape any backslashes in *if* statements! Example: `[[if %%VAR matches .*\.js]]` should be `[[if %%VAR matches .*\\.js]]`
 
 ### Examples
+
+Default filename examples:
 
 - `%%TITLE ([[if %%HQ is 1]]HD from [[endif]]%%SITE)` will transform into *My Awesome Video (YouTube)* for a standard YouTube video or *My Awesome Video (HD from YouTube)* for an HD version of that video.
 - `[[if %%TITLE matches (from|by) Bob$]]A video from my friend[[else]]%%TITLE[[endif]]` will transform into *A video from my friend* for a video titled "blah blah from Bob" or "blah blah by Bob" or just the video title for any other video.
