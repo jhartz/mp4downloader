@@ -16,16 +16,16 @@ There are a few ways to download videos:
 
 <dl>
     <dt>Use the toolbar button</dt>
-    <dd>The toolbar button should be on your toolbar after the address bar. (You can move or hide it by right-clicking on the button and selecting <em>Customize</em>.) Click the toolbar button while on any video page (including a YouTube user channel in addition to normal YouTube video pages) to download the video.</dd>
+    <dd>The MP4 Downloader toolbar button should be on your toolbar. (You can move or hide it by right-clicking on the button and selecting <em>Customize</em>.) Click the toolbar button while on any video page (including a YouTube user channel in addition to normal YouTube video pages) to download the video.</dd>
     
     <dt>Use the context menu</dt>
     <dd>You can use the context menu (the menu that appears when you right-click on a web page) to download videos. Just right-click on a supported video page and select <em>Download Video as MP4</em>. (NOTE: Due to a limitation in Adobe Flash, you can't right-click on the actual video - just right-click on the space around the video.)</dd>
     
     <dt>Use the button embedded inside a video page</dt>
-    <dd>By default, a download button is automatically embedded inside the video page of any supported video. Just click this button to download the video! (If you cannot find the button, look for a "Download" button below the video in YouTube and Dailymotion or a "Download Video as MP4" button in the right sidebar below the video on Vimeo.)</dd>
+    <dd>By default, a download button is automatically embedded inside the video page of any supported video. Just click this button to download the video! (If you cannot find the button, look for a "Download" button below the video on YouTube and Dailymotion or a "Download Video as MP4" button below the video on Vimeo.)</dd>
     
     <dt>Use the download button placed below embedded videos in web pages</dt>
-    <dd>MP4 Downloader has an amazing feature that enables you to download YouTube, Dailymotion, Facebook Video, and Vimeo videos that are embedded inside web pages. Just visit a web page with a supported video embedded inside it and click the <em>Download Video as MP4</em> button below the video.</dd>
+    <dd>MP4 Downloader has an amazing feature that enables you to download YouTube, Dailymotion, and Vimeo videos that are embedded inside web pages. Just visit a web page with a supported video embedded inside it and click the <em>Download Video as MP4</em> button below the video. If you see an embedded video that doesn't have a <em>Download Video as MP4</em> button below it, try clicking the MP4 Downloader toolbar button to re-check for embedded videos.</dd>
     
     <dt>Use the context menu of links pointing to video pages</dt>
     <dd>If you find a link to a video page on a supported site that contains a video you want to download, just right-click on the link and select <em>Download Link as MP4</em>.</dd>
