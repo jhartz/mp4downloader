@@ -1,4 +1,4 @@
-- Added option to automatically save videos to a certain directory
+- Added option to save videos automatically to a certain directory
 - Fixed many issues with downloading from YouTube, Dailymotion, and Vimeo
 - Added more possible variables for preferences that use [Selective Content Replacement](/mp4downloader/docs/selective-content-replacement.html)
 - Improved compatibility with Flashblock and HTTPS Everywhere add-ons
