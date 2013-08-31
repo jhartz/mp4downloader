@@ -9,54 +9,42 @@ langs:
 ---
 <h2>Development</h2>
 
-<!--
 <h3>Versioning and Release Schedule Terminology</h3>
-<p>Each current MP4 Downloader version can be placed into one of these categories. After a version graduates to "released" status, a new version forms through nightly development on the master branch. It then works its way up until it is eventually released, and the cycle begins again.</p>
+<p>Each current version of the MP4 Downloader add-on can be placed into one of these categories. After a version graduates to "released" status, a new version forms through nightly development on the master branch. It then works its way up until it is eventually released, and the cycle begins again.</p>
 <ul>
     <li><strong>Released versions</strong></li>
-    <li title="These are not unreleased versions. They're PRE-release versions.">{% comment %}Cause "unreleased" almost makes it seem like we're hiding it from the public - which we're not.{% endcomment %}Pre-release versions
+    <li title="These are not unreleased versions. They're PRE-release versions."><!-- Because "unreleased" almost makes it seem like we're hiding it from the public - which we're not. -->Pre-release versions
         <ul>
             <li><strong title="NOT released beta versions - that's just an oxymoron.">Beta versions</strong> in the <a href="firefox/beta.html">beta channel</a></li>
             <li><strong>Nightly builds</strong>
                 <ul>
-                    <li>Built from "pre-release source code on the master branch" (referring to the git "master" branch)</li>
+                    <li>Built from the latest source code on the git master branch</li>
                     <li>"Nightly development" is the name for the type of source code development that occurs on the master branch</li>
                 </ul>
             </li>
         </ul>
     </li>
 </ul>
--->
 
-<h3>Pre-release Versions</h3>
-<p>Any MP4 Downloader version that is not yet released (ie. not the version available for download on the <a href="/mp4downloader/firefox/">download page</a>) is considered a "pre-release" version. There are two types of pre-release versions:</p>
+<h4>Pre-release Versions</h4>
+<p>Any MP4 Downloader version that is not yet released (ie. not the version available for download on the <a href="firefox/">download page</a>) is considered a "pre-release" version. There are two types of pre-release versions:</p>
 <ul>
     <li>The <a href="firefox/beta.html">beta channel</a> always hosts the latest beta version of MP4 Downloader. Beta versions are considered stable enough for general testing, but not yet stable enough for a public release.</li>
-    <li><a href="firefox/nightly.html">Nightly builds</a> are automatically-generated MP4 Downloader builds based on the very latest source code in the CVS repository <!-- when we move to git: "in the master branch" --> (below). These builds have no guarantees of stability - code in a nightly build can be completely untested.</li>
+    <li><a href="firefox/nightly.html">Nightly builds</a> are automatically-generated MP4 Downloader builds based on the very latest source code in the master branch (below). These builds have no guarantees of stability - code in a nightly build can be completely untested.</li>
 </ul>
+
+<h3>Source Code</h3>
+<p>The source code for the MP4 Downloader Firefox add-on, the MP4 Downloader bookmarklet, and the MP4 Downloader website (including this page) is located in the git repository on GitHub: <a href="https://github.com/jhartz/mp4downloader">https://github.com/jhartz/mp4downloader</a></p>
+<p>The MP4 Downloader Firefox add-on is licensed under the <a href="http://www.gnu.org/licenses/gpl.html">GNU General Public License</a> version 3. Its branching and tagging mechanism in the git repo is described below.</p>
+<p>The MP4 Downloader website content is hosted in <a href="https://github.com/jhartz/mp4downloader/tree/gh-pages">the gh-pages branch</a> in the git repository.</p>
+<p>The MP4 Downloader bookmarklet is also licensed under the <a href="http://www.gnu.org/licenses/gpl.html">GNU General Public License</a> version 3. It is hosted as part of the MP4 Downloader website (the <a href="https://github.com/jhartz/mp4downloader/tree/gh-pages/bookmarklet">bookmarklet folder</a> in the gh-pages branch in the git repository).</p>
+<p>To contribute to any of these sections of the MP4 Downloader source code, just <a href="https://help.github.com/articles/fork-a-repo">fork the repo</a> and <a href="https://help.github.com/articles/using-pull-requests/">send a pull request</a>.</p>
 
 <h3>Developer Documentation</h3>
 <p>Documentation used in the development of MP4 Downloader is located on the <a href="https://github.com/jhartz/mp4downloader/wiki">wiki</a>.</p>
 
-<h3>Source Code</h3>
-<p>MP4 Downloader follows an open-source development model. All MP4 Downloader source code is currently hosted at Mozdev and is licensed under the <a href="http://www.gnu.org/licenses/gpl.html">GNU General Public License</a> version 3. The source code can be accessed through one of the following ways:</p>
-<ul>
-    <li>View the source using the <abbr title="Concurrent Versions System">CVS</abbr> <a href="http://www.mozdev.org/source/browse/mp4downloader/src/">web interface</a></li>
-    <li>Check out the source using anonymous <abbr title="Concurrent Versions System">CVS</abbr> with the following commands (password is <em>guest</em>):
-<pre>cvs -d :pserver:guest@mozdev.org:/cvs login
-cvs -z3 -d :pserver:guest@mozdev.org:/cvs co mp4downloader</pre>
-    </li>
-</ul>
-
-<h3>Bookmarklet Source Code</h3>
-<p>The bookmarklet is hosted on GitHub as part of the MP4 Downloader website: <a href="https://github.com/jhartz/mp4downloader/tree/gh-pages/bookmarklet">https://github.com/jhartz/mp4downloader/tree/gh-pages/bookmarklet</a></p>
-
-<h3>Website Source Code</h3>
-<p>The MP4 Downloader website is hosted as an open-source project on GitHub. If you have a suggestion for a change, just <a href="https://help.github.com/articles/fork-a-repo">fork the repo</a> and <a href="https://help.github.com/articles/using-pull-requests/">send a pull request</a>: <a href="https://github.com/jhartz/mp4downloader">https://github.com/jhartz/mp4downloader</a> (website content is stored in "gh-pages" branch)</p>
-
-<!--
 <h3>Version Numbers</h3>
-<p>MP4 Downloader version numbers, starting with the release of MP4 Downloader 2.0.0:</p>
+<p>The version numbers for the MP4 Downloader add-on, starting with the release of MP4 Downloader 2.0.0:</p>
 <ul>
     <li>MP4 Downloader version numbers follow a <code>supermajor.major.minor</code> pattern:
         <ul>
@@ -67,13 +55,13 @@ cvs -z3 -d :pserver:guest@mozdev.org:/cvs co mp4downloader</pre>
     </li>
     <li>Version numbers for pre-release source code on the master branch are in the form of <code>0.0pre</code> where the first number is the supermajor version number and the second number is the major version number (based on the version that the code will eventually become when it is released).</li>
     <li>Version numbers for beta versions are in the form of <code>0.0b0</code> where the first number is the supermajor version number, the second number is the major version number, and the third number is the beta release (first beta is "1", second is "2", etc.).</li>
+    <li>Occasionally, beta versions may have a version number in the form of <code>0.0rc</code> if it is exactly the same as the currently released version (ie. no new beta version has been published since the last release).</li>
 </ul>
 
-<h3>Git branching and tagging:</h3>
+<h3>Git Branching and Tagging</h3>
 <ul>
     <li>All nightly development is done on in the "master" branch (or other branches intended to be merged into master once their changes are complete).</li>
     <li>When the master branch is ready for a release, it is tagged with the new version number (<code>v0.0</code> where the first number is the supermajor version number and the second number is the major version number). Likewise, beta versions are tagged similarly as well (<code>v0.0b0</code> - explanation above).</li>
     <li>When a bugfix is needed on a released version of MP4 Downloader, a new branch is created based on the tag that was assigned to that version's codebase. The new branch is named something like <code>2.1.x</code> (based on major release "2.1" or tag "v2.1"). We would just keep that branch there, making a new tag inside it for each new minor release based on "v2.1". When a new major version is released (ie. "v2.2"), that branch can be <a href="http://stackoverflow.com/a/2343746">deleted</a> - any new bugfixes will go on in a new branch based on the new major version.</li>
 </ul>
-<p>Some inspiration from: <a href="http://nvie.com/posts/a-successful-git-branching-model/">http://nvie.com/posts/a-successful-git-branching-model/</a></p>
--->
+<!-- <p>Some inspiration from: <a href="http://nvie.com/posts/a-successful-git-branching-model/">http://nvie.com/posts/a-successful-git-branching-model/</a></p> -->
