@@ -2,7 +2,7 @@
 <?xml-stylesheet href="chrome://mp4downloader/skin/overlay.css" type="text/css"?>
 <!DOCTYPE overlay SYSTEM "chrome://mp4downloader/locale/mp4downloader.dtd">
 <overlay id="mp4downloader_overlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-    <script type="application/x-javascript" src="chrome://mp4downloader/content/mp4downloader.js" />
+    <script type="application/x-javascript" src="chrome://mp4downloader/content/overlay.js" />
     
     <!-- Context Menu Links -->
     <popup id="contentAreaContextMenu">

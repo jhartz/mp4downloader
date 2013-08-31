@@ -5,10 +5,10 @@ content mp4downloader chrome/content/
 resource mp4downloader modules/
 
 # Firefox
-overlay chrome://browser/content/browser.xul chrome://mp4downloader/content/mp4downloader.xul application={ec8030f7-c20a-464f-9b0e-13a3a9e97384}
+overlay chrome://browser/content/browser.xul chrome://mp4downloader/content/overlay.xul application={ec8030f7-c20a-464f-9b0e-13a3a9e97384}
 
 # SeaMonkey
-overlay chrome://navigator/content/navigator.xul chrome://mp4downloader/content/mp4downloader.xul application={92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}
+overlay chrome://navigator/content/navigator.xul chrome://mp4downloader/content/overlay.xul application={92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}
 
 
 # Default skin
