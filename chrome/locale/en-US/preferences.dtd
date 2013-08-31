@@ -1,0 +1,37 @@
+<!ENTITY preferences.title "MP4 Downloader Preferences">
+
+<!ENTITY screenshotWithParentheses.label         "(screenshot)">
+<!ENTITY selectiveContentReplacement.description "This preference is parsed using Selective Content Replacement, a MP4 Downloader-specific syntax.">
+<!ENTITY selectiveContentReplacement.tooltip     "Selective Content Replacement can be used to replace variables in preference values and perform basic logic based on the details of the video being downloaded.">
+<!ENTITY selectiveContentReplacement.linkLabel   "For more details on this syntax, see:">
+<!ENTITY selectiveContentReplacement.linkText    "Selective Content Replacement (MP4 Downloader docs)">
+
+<!ENTITY general.label         "General">
+<!ENTITY embedBtnOnVideo.label "Place a &quot;Download&quot; button inside video pages">
+<!ENTITY embedBtn.label        "Place a &quot;Download Video as MP4&quot; button below videos embedded in web pages">
+<!ENTITY contextmenu.label     "Enable &quot;Download Video as MP4&quot; button in the context menu on video pages">
+<!ENTITY linkcontextmenu.label "Enable &quot;Download Link as MP4&quot; button in the context menu of links pointing to videos">
+<!ENTITY hq.label              "Download high-quality (720p or 1080p) MP4 videos if available">
+
+
+<!ENTITY saveLocation.label                 "Download Location">
+<!ENTITY saveLocation.description           "This setting controls where MP4 Downloader should save downloaded videos.">
+<!ENTITY saveMode_alwaysAsk.label           "Always ask where to save videos">
+<!ENTITY saveMode_defaultDownloadsDir.label "Save videos in &brandShortName;'s default downloads directory">
+<!ENTITY saveMode_useDTA.label              "Use DownThemAll to download videos">
+<!ENTITY saveMode_useDTAOneClick.label      "Use dTa OneClick">
+<!-- TODO: Re-word these next 2? -->
+<!ENTITY saveMode_useDTAAutoMask.label      "Automatically set DownThemAll filename mask to *text*.mp4 for better filenames">
+<!ENTITY saveMode_useDTAAutoMask.tooltip    "The mask will be changed automatically for each MP4 Downloader download, but you will have to change the mask back to the default (*name*.*ext*) after each time MP4 Downloader is used. (Only useful if you use DownThemAll just with MP4 Downloader.)">
+<!ENTITY saveMode_dtaNotInstalled.label     "(Requires the DownThemAll add-on from www.downthemall.net)">
+<!ENTITY saveMode_custom.label              "Save videos in:">
+<!ENTITY browse.label                       "Browse...">
+
+<!ENTITY defaultFilename.label       "Default Filename">
+<!ENTITY defaultFilename.description "This setting controls the default filename for downloaded MP4 videos.">
+<!ENTITY defaultFilename.listTitle   "There are several options for the default filename (examples are in parentheses):">
+<!ENTITY defaultFilename_videoTitle.label         "Video title (Awesome Video)">
+<!ENTITY defaultFilename_videoTitleAndSite.label  "Video title with video site appended on the end (Awesome Video (YouTube))">
+<!ENTITY defaultFilename_videoTitleAndHQ.label    "Video title with 'HQ' appended for high-quality/HD downloads (Awesome Video (HQ))">
+<!ENTITY defaultFilename_combinationOfAbove.label "Combination of the above (Awesome Video (HQ from YouTube))">
+<!ENTITY defaultFilename_custom.label             "Custom">

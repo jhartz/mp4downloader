@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin" type="text/css"?>
+<!DOCTYPE prefwindow [
+    <!ENTITY % prefwindow SYSTEM "chrome://mp4downloader/locale/preferences.dtd">
+    %prefwindow;
+    <!ENTITY % branding SYSTEM "chrome://branding/locale/brand.dtd">
+    %branding;
+]>
+
+<prefwindow xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:html="http://www.w3.org/1999/xhtml" id="mp4downloader_prefwindow" title="&preferences.title;">
+    <script type="application/x-javascript" src="options.js"></script>
+    
+    <prefpane>
+        <preferences>
+            <preference id="pref_embedBtn" name="extensions.mp4downloader.embedBtn" type="bool" />
+            <preference id="pref_embedBtnOnVideo" name="extensions.mp4downloader.embedBtnOnVideo" type="bool" />
+            <preference id="pref_contextmenu" name="extensions.mp4downloader.contextmenu" type="bool" />
+            <preference id="pref_linkcontextmenu" name="extensions.mp4downloader.linkcontextmenu" type="bool" />
+            <preference id="pref_hq" name="extensions.mp4downloader.hq" type="bool" />
+            
+            <preference id="pref_dtaOneClick" name="extensions.mp4downloader.dtaOneClick" type="bool" />
+            <preference id="pref_dtaAutoMask" name="extensions.mp4downloader.dtaAutoMask" type="bool" />
+            <preference id="pref_saveMode" name="extensions.mp4downloader.saveMode" type="int" />
+            <preference id="pref_saveLocation" name="extensions.mp4downloader.saveLocation" type="string" />
+            
+            <preference id="pref_defaultFilename" name="extensions.mp4downloader.defaultFilename" type="string" />
+        </preferences>
+        
+        <hbox style="-moz-box-align: center;">
+            <image src="chrome://mp4downloader/content/logo.png" width="67" height="67" />
+            <label id="titleLabel" value="MP4 Downloader" style="font-size: 25pt; text-shadow: 2px 2px 2px #6374AB; padding-left: 15px;" />
+        </hbox>
+        
+        <tabbox flex="1">
+            <tabs>
+                <tab label="&general.label;" />
+                <tab label="&saveLocation.label;" />
+                <tab label="&defaultFilename.label;" />
+            </tabs>
+            
+            <tabpanels>
+                <tabpanel orient="vertical">
+                    <hbox style="-moz-box-align: center;">
+                        <checkbox preference="pref_embedBtnOnVideo" id="p_embedBtnOnVideo" label="&embedBtnOnVideo.label;" />
+                        <description style="margin: 0;"><html:a href="http://jhartz.github.io/mp4downloader/screenshots.html#DownloadbuttonplacedinsideYouTubevideopage" target="_blank" onclick="return !!mp4downloader_options.openLink(this.href);" style="color: blue; text-decoration: underline;">&screenshotWithParentheses.label;</html:a></description>
+                    </hbox>
+                    <hbox style="-moz-box-align: center;">
+                        <checkbox preference="pref_embedBtn" id="p_embedBtn" label="&embedBtn.label;" />
+                        <description style="margin: 0;"><html:a href="http://jhartz.github.io/mp4downloader/screenshots.html#DownloadbuttonplacedbelowembeddedYouTubevideo" target="_blank" onclick="return !!mp4downloader_options.openLink(this.href);" style="color: blue; text-decoration: underline;">&screenshotWithParentheses.label;</html:a></description>
+                    </hbox>
+                    <checkbox preference="pref_contextmenu" id="p_contextmenu" label="&contextmenu.label;" />
+                    <checkbox preference="pref_linkcontextmenu" id="p_contextmenuLink" label="&linkcontextmenu.label;" />
+                    <checkbox preference="pref_hq" id="p_hq" label="&hq.label;" />
+                </tabpanel>
+                
+                <tabpanel orient="vertical">
+                    <description>&saveLocation.description;</description>
+                    <radiogroup preference="pref_saveMode" id="p_saveMode" onselect="mp4downloader_options.checkSaveMode()">
+                        <radio value="0" label="&saveMode_alwaysAsk.label;" />
+                        <radio value="2" label="&saveMode_defaultDownloadsDir.label;" />
+                        <radio value="3" label="&saveMode_useDTA.label;" id="p_dta" />
+                        <hbox>
+                            <!-- Dummy radio, just for spacing -->
+                            <radio value="3" id="dummy" disabled="true" style="visibility: hidden;" />
+                            <checkbox preference="pref_dtaOneClick" id="p_dtaOneClick" label="&saveMode_useDTAOneClick.label;" oncommand="mp4downloader_options.checkOneClick();" />
+                            <checkbox preference="pref_dtaAutoMask" id="p_dtaAutoMask" label="&saveMode_useDTAAutoMask.label;" tooltiptext="&saveMode_useDTAAutoMask.tooltip;" />
+                            <label id="noDTA" value="&saveMode_dtaNotInstalled.label;" disabled="true" hidden="true" />
+                        </hbox>
+                        <hbox style="-moz-box-align: center;">
+                            <radio value="1" label="&saveMode_custom.label; " id="saveModeCustom" />
+                            <textbox preference="pref_saveLocation" id="p_saveLocation" flex="1" />
+                            <button id="saveModeBrowse" label="&browse.label;" oncommand="mp4downloader_options.chooseFolder()" />
+                        </hbox>
+                    </radiogroup>
+                    <vbox id="saveModeHelp" tooltiptext="&selectiveContentReplacement.tooltip;">
+                        <description>&selectiveContentReplacement.description;</description>
+                        <description>&selectiveContentReplacement.linkLabel; <html:a href="http://jhartz.github.io/mp4downloader/docs/selective-content-replacement.html" target="_blank" onclick="return !!mp4downloader_options.openLink(this.href);" style="color: blue; text-decoration: underline;">&selectiveContentReplacement.linkText;</html:a></description>
+                    </vbox>
+                </tabpanel>
+                
+                <tabpanel orient="vertical">
+                    <description>&defaultFilename.description;</description>
+                    <description>&defaultFilename.listTitle;</description>
+                    <menulist id="filenameMenu" onselect="mp4downloader_options.checkFilenameMenu()">
+                        <menupopup>
+                            <menuitem value="0" label="&defaultFilename_videoTitle.label;" data-value="%%TITLE" />
+                            <menuitem value="1" label="&defaultFilename_videoTitleAndSite.label;" data-value="%%TITLE (%%SITE)" />
+                            <menuitem value="2" label="&defaultFilename_videoTitleAndHQ.label;" data-value="%%TITLE[[if %%HQ is 1]] (HQ)[[endif]]" />
+                            <menuitem value="3" label="&defaultFilename_combinationOfAbove.label;" data-value="%%TITLE ([[if %%HQ is 1]]HQ from [[endif]]%%SITE)" />
+                            <menuitem value="4" label="&defaultFilename_custom.label;" id="filenameMenuCustom" selected="true" />
+                        </menupopup>
+                    </menulist>
+                    <textbox id="p_defaultFilename" preference="pref_defaultFilename" />
+                    <vbox id="filenameHelp" tooltiptext="&selectiveContentReplacement.tooltip;">
+                        <description>&selectiveContentReplacement.description;</description>
+                        <description>&selectiveContentReplacement.linkLabel; <html:a href="http://jhartz.github.io/mp4downloader/docs/selective-content-replacement.html" target="_blank" onclick="return !!mp4downloader_options.openLink(this.href);" style="color: blue; text-decoration: underline;">&selectiveContentReplacement.linkText;</html:a></description>
+                    </vbox>
+                </tabpanel>
+            </tabpanels>
+        </tabbox>
+    </prefpane>
+</prefwindow>

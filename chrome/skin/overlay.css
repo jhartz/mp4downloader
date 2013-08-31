@@ -1,0 +1,8 @@
+#mp4downloader_button {
+    list-style-image: url("chrome://mp4downloader/skin/button_large.png");
+}
+
+/* Small Icons */
+toolbar[iconsize="small"] #mp4downloader_button {
+    list-style-image: url("chrome://mp4downloader/skin/button_small.png");
+}

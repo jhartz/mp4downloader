@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://mp4downloader/skin/overlay.css" type="text/css"?>
+<!DOCTYPE overlay SYSTEM "chrome://mp4downloader/locale/mp4downloader.dtd">
+<overlay id="mp4downloader_overlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+    <script type="application/x-javascript" src="chrome://mp4downloader/content/mp4downloader.js" />
+    
+    <!-- Context Menu Links -->
+    <popup id="contentAreaContextMenu">
+        <menuitem id="mp4downloader_contextmenu" label="&contextmenu.label;" insertbefore="context-bookmarkpage" oncommand="mp4downloader.mp4download(event);" />
+        <menuitem id="mp4downloader_linkcontextmenu" label="&linkcontextmenu.label;" insertbefore="context-sep-open" oncommand="mp4downloader.linkContextMenuCommand();" videopage="" referpage="" />
+    </popup>
+    
+    <!-- Toolbar Button -->
+    <toolbarpalette id="BrowserToolbarPalette">
+        <toolbarbutton id="mp4downloader_button" label="&toolbarbutton.label;" class="toolbarbutton-1" oncommand="mp4downloader.mp4download(event);" tooltiptext="&toolbarbutton.tooltiptext;" />
+    </toolbarpalette>
+</overlay>

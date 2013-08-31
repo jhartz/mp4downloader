@@ -1,0 +1,9 @@
+#mp4downloader_button {
+    list-style-image: url("chrome://mp4downloader/skin/button.png");
+}
+
+#mp4downloader_button > .toolbarbutton-icon {
+    margin: 0px !important;
+    width: auto !important;
+    height: auto !important;
+}

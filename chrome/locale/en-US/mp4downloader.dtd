@@ -1,0 +1,4 @@
+<!ENTITY contextmenu.label         "Download Video as MP4">
+<!ENTITY linkcontextmenu.label     "Download Link as MP4">
+<!ENTITY toolbarbutton.label       "MP4 Downloader">
+<!ENTITY toolbarbutton.tooltiptext "Download Video as MP4">
