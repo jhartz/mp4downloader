@@ -10,27 +10,12 @@ langs:
 <h2>Development</h2>
 
 <h3>Versioning and Release Schedule Terminology</h3>
-<p>Each current version of the MP4 Downloader add-on can be placed into one of these categories. After a version graduates to "released" status, a new version forms through nightly development on the master branch. It then works its way up until it is eventually released, and the cycle begins again.</p>
-<ul>
-    <li><strong>Released versions</strong></li>
-    <li title="These are not unreleased versions. They're PRE-release versions."><!-- Because "unreleased" almost makes it seem like we're hiding it from the public - which we're not. -->Pre-release versions
-        <ul>
-            <li><strong title="NOT released beta versions - that's just an oxymoron.">Beta versions</strong> in the <a href="firefox/beta.html">beta channel</a></li>
-            <li><strong>Nightly builds</strong>
-                <ul>
-                    <li>Built from the latest source code on the git master branch</li>
-                    <li>"Nightly development" is the name for the type of source code development that occurs on the master branch</li>
-                </ul>
-            </li>
-        </ul>
-    </li>
-</ul>
+<p>There are two main categories of MP4 Downloader versions: <strong>released versions</strong> and <strong>pre-release versions</strong>. The released versions are deemed stable for normal use; the latest released version is available for download on the <a href="firefox/">download page</a>.</p>
 
-<h4>Pre-release Versions</h4>
 <p>Any MP4 Downloader version that is not yet released (ie. not the version available for download on the <a href="firefox/">download page</a>) is considered a "pre-release" version. There are two types of pre-release versions:</p>
 <ul>
     <li>The <a href="firefox/beta.html">beta channel</a> always hosts the latest beta version of MP4 Downloader. Beta versions are considered stable enough for general testing, but not yet stable enough for a public release.</li>
-    <li><a href="firefox/nightly.html">Nightly builds</a> are automatically-generated MP4 Downloader builds based on the very latest source code in the master branch (below). These builds have no guarantees of stability - code in a nightly build can be completely untested.</li>
+    <li><a href="firefox/nightly.html">Nightly builds</a> are automatically-generated MP4 Downloader builds based on the very latest source code in the master branch of the git repository (see below). These builds have no guarantees of stability - code in a nightly build can be completely untested.</li>
 </ul>
 
 <h3>Source Code</h3>
@@ -60,7 +45,7 @@ langs:
 
 <h3>Git Branching and Tagging</h3>
 <ul>
-    <li>All nightly development is done on in the "master" branch (or other branches intended to be merged into master once their changes are complete).</li>
+    <li>All new MP4 Downloader development (except urgent bugfixes) is done on in the "master" branch (or other branches intended to be merged into master once their changes are complete).</li>
     <li>When the master branch is ready for a release, it is tagged with the new version number (<code>v0.0</code> where the first number is the supermajor version number and the second number is the major version number). Likewise, beta versions are tagged similarly as well (<code>v0.0b0</code> - explanation above).</li>
     <li>When a bugfix is needed on a released version of MP4 Downloader, a new branch is created based on the tag that was assigned to that version's codebase. The new branch is named something like <code>2.1.x</code> (based on major release "2.1" or tag "v2.1"). We would just keep that branch there, making a new tag inside it for each new minor release based on "v2.1". When a new major version is released (ie. "v2.2"), that branch can be <a href="http://stackoverflow.com/a/2343746">deleted</a> - any new bugfixes will go on in a new branch based on the new major version.</li>
 </ul>
