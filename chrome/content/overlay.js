@@ -1099,7 +1099,7 @@ var mp4downloader = {
                 if (popupTarget && popupTarget.getAttribute && popupTarget.getAttribute("href")) {
                     var href = popupTarget.getAttribute("href");
                     if (href.substring(0, 11) != "javascript:" && href.substring(0, 7) != "mailto:" && href.substring(0, 6) != "about:" && href.substring(0, 1) != "#") {
-                        var linkURL = this.util.makeURI(popupTarget.getAttribute("href"), window.content.location.href);
+                        var linkURL = this.util.makeURL(popupTarget.getAttribute("href"), window.content.location.href).spec;
                         if (linkURL) {
                             var linkHost = this.util.getFromString(linkURL, "://", "/");
                             var linkPath = this.util.getFromString(linkURL, "://");
@@ -1284,7 +1284,7 @@ var mp4downloader = {
                 if (iframes[i].getAttribute("src")) {
                     let embedURL = iframes[i].getAttribute("src");
                     if (embedURL) {
-                        embedURL = this.util.makeURI(embedURL, contentWindow.location.href);
+                        embedURL = this.util.makeURL(embedURL, contentWindow.location.href).spec;
                         let embedURLhost = this.util.getFromString(embedURL, "://", "/");
                         if (embedURLhost) {
                             let embedURLpath = this.util.getFromString(embedURL, "://");
@@ -1382,7 +1382,7 @@ var mp4downloader = {
                     } catch (err) {}
                 }
                 if (embedURL) {
-                    embedURL = this.util.makeURI(embedURL, contentWindow.location.href);
+                    embedURL = this.util.makeURL(embedURL, contentWindow.location.href).spec;
                     if (embedURL.indexOf("?") != -1) {
                         flashvars += "&" + this.util.getFromString(embedURL, "?");
                         embedURL = embedURL.substring(0, embedURL.indexOf("?"));
@@ -1489,7 +1489,7 @@ var mp4downloader = {
                 let flashvars = embeds[k].getAttribute("flashvars") ? "&" + embeds[k].getAttribute("flashvars") : "";
                 let embedURL = embeds[k].getAttribute("src");
                 if (embedURL) {
-                    embedURL = this.util.makeURI(embedURL, contentWindow.location.href);
+                    embedURL = this.util.makeURL(embedURL, contentWindow.location.href).spec;
                     if (embedURL.indexOf("?") != -1) {
                         flashvars += "&" + this.util.getFromString(embedURL, "?");
                         embedURL = embedURL.substring(0, embedURL.indexOf("?"));

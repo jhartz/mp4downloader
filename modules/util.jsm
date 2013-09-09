@@ -7,6 +7,7 @@
 var EXPORTED_SYMBOLS = ["util"];
 
 var bundles = {};
+var services = {};
 
 var util = {
     prefs: Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("extensions.mp4downloader."),
@@ -220,16 +221,48 @@ var util = {
         return str;
     },
     
-    // Return a URI (as a string) based on a "path" and a "base"
-    makeURI: function (path, base) {
-        var io = Components.classes["@mozilla.org/network/io-service;1"].getService(Components.interfaces.nsIIOService);
-        if (base) {
-            base = io.newURI(base, null, null);
+    // Return an nsIURL object from a window.location object, a nsIURI instance, or a string
+    // (and optionally a base to base it off of, if path is a string)
+    makeURL: function (path, base) {
+        if (!services.io) services.io = Components.classes["@mozilla.org/network/io-service;1"].getService(Components.interfaces.nsIIOService);
+        
+        if (path.href) path = path.href;
+        if (typeof path == "string") {
+            if (base && base.href) base = base.href;
+            if (typeof base == "string" && base.length > 0) {
+                base = io.newURI(base, null, null);
+            }
+            if (!(base && base instanceof Components.interfaces.nsIURI)) base = null;
+            
+            return services.io.newURI(path, null, base).QueryInterface(Components.interfaces.nsIURL);
+        } else if (path instanceof Components.interfaces.nsIURI) {
+            return path.QueryInterface(Components.interfaces.nsIURL);
         } else {
-            base = null;
+            return path;
         }
-        var uri = io.newURI(path, null, base);
-        if (uri) return uri.spec;
+    },
+    
+    // Prettier version of makeURL above (returns easier-named stuff including parsed query string)
+    getURLParts: function (location, base) {
+        var url = this.makeURL(location, base);
+        
+        var query = {};
+        url.query.split("&").forEach(function (value) {
+            if (value.indexOf("=") != -1) {
+                query[decodeURIComponent(value.substring(0, value.indexOf("=")))] = decodeURIComponent(value.substring(value.indexOf("=") + 1));
+            } else {
+                query[decodeURIComponent(value)] = "";
+            }
+        });
+        
+        return {
+            href: url.spec,
+            protocol: url.scheme,
+            host: url.host,
+            path: url.filePath,
+            query: query,
+            hash: url.ref
+        };
     },
     
     // Get the name of the current product
