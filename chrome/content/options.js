@@ -1,3 +1,9 @@
+/*
+    Copyright (C) 2013  Jake Hartz
+    This source code is licensed under the GNU General Public License version 3.
+    For details, see the LICENSE.txt file.
+*/
+
 var mp4downloader = {};
 
 var mp4downloader_options = {
