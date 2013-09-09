@@ -39,7 +39,7 @@
         </em:targetApplication>
         
         <em:iconURL>chrome://mp4downloader/content/logo.png</em:iconURL>
-        <em:optionsURL>chrome://mp4downloader/content/options.xul</em:optionsURL>
+        <em:optionsURL>chrome://mp4downloader/content/preferences.xul</em:optionsURL>
         <em:homepageURL>http://jhartz.github.io/mp4downloader/</em:homepageURL>
         <em:updateURL>https://www.mozdev.org/p/updates/mp4downloader/mp4downloader@jeff.net/update.rdf</em:updateURL>
     </Description>

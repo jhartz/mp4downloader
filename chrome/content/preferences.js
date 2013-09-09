@@ -6,7 +6,7 @@
 
 var mp4downloader = {};
 
-var mp4downloader_options = {
+var mp4downloader_preferences = {
     checkDTA: function () {
         // Check if DownThemAll is installed
         // (NOTE: This can ONLY be called once, preferably when the window is loading)
@@ -44,7 +44,7 @@ var mp4downloader_options = {
             document.getElementById("saveModeHelp").style.visibility = "hidden";
         }
         
-        // If DTA is not selected, disable DTA-specific options
+        // If DTA is not selected, disable DTA-specific preferences
         if (document.getElementById("p_saveMode").selectedItem == document.getElementById("p_dta")) {
             document.getElementById("p_dtaOneClick").disabled = false;
             document.getElementById("p_dtaAutoMask").disabled = false;
@@ -168,7 +168,7 @@ var mp4downloader_options = {
             if (changelogVersion[1]) changelogVersion = changelogVersion[1];
             document.getElementById("titleLabel").style.cursor = "pointer";
             document.getElementById("titleLabel").addEventListener("click", function () {
-                mp4downloader_options.openLink("http://jhartz.github.io/mp4downloader/changelog/firefox/" + encodeURIComponent(changelogVersion) + ".en.html");
+                mp4downloader_preferences.openLink("http://jhartz.github.io/mp4downloader/changelog/firefox/" + encodeURIComponent(changelogVersion) + ".en.html");
             }, false);
         }
     }
@@ -181,23 +181,23 @@ window.addEventListener("load", function () {
     try {
         if (Components.classes["@mozilla.org/extensions/manager;1"] && Components.interfaces.nsIExtensionManager) {
             try {
-                mp4downloader_options.updateLabel(Components.classes["@mozilla.org/extensions/manager;1"].getService(Components.interfaces.nsIExtensionManager).getItemForID("mp4downloader@jeff.net").version);
+                mp4downloader_preferences.updateLabel(Components.classes["@mozilla.org/extensions/manager;1"].getService(Components.interfaces.nsIExtensionManager).getItemForID("mp4downloader@jeff.net").version);
             } catch (err) {}
         } else {
             try {
                 // use FF4's new AddonManager JSM
                 Components.utils.import("resource://gre/modules/AddonManager.jsm");
                 AddonManager.getAddonByID("mp4downloader@jeff.net", function (addon) {
-                    mp4downloader_options.updateLabel(addon.version);
+                    mp4downloader_preferences.updateLabel(addon.version);
                 });
             } catch (err) {}
         }
     } catch (err) {}
     
     // Check DTA, save mode, and OneClick prefs (in that order)
-    mp4downloader_options.checkDTA();
-    mp4downloader_options.checkSaveMode();
-    mp4downloader_options.checkOneClick();
+    mp4downloader_preferences.checkDTA();
+    mp4downloader_preferences.checkSaveMode();
+    mp4downloader_preferences.checkOneClick();
     
     // The rest is for default filename prefs
     var val = document.getElementById("p_defaultFilename").value;
