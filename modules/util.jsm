@@ -7,30 +7,33 @@
 var EXPORTED_SYMBOLS = ["util"];
 
 var bundles = {};
-var services = {};
+
+try {
+    Components.utils.import("resource://gre/modules/Services.jsm");
+} catch (err) {
+    // Import our Services.jsm shim
+    Components.utils.import("resource://mp4downloader/Services-shim.jsm");
+}
 
 var util = {
-    prefs: Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("extensions.mp4downloader."),
+    prefs: Services.prefs.getBranch("extensions.mp4downloader."),
     
     // Log an error or message
     log: function (msg) {
         if (!msg) return;
-        var consoleService = Components.classes["@mozilla.org/consoleservice;1"].getService(Components.interfaces.nsIConsoleService);
-        consoleService.logStringMessage("MP4 Downloader:\n" + msg);
+        Services.console.logStringMessage("MP4 Downloader:\n" + msg);
     },
     
     // Show an error or message
     alert: function (msg) {
         if (!msg) return;
-        var promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService);
-        promptService.alert(null, "MP4 Downloader", msg);
+        Services.prompt.alert(null, "MP4 Downloader", msg);
     },
     
     // Show a yes/no dilog
     confirm: function (msg) {
         if (!msg) return;
-        var promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService);
-        return promptService.confirmEx(null, "MP4 Downloader", msg, promptService.STD_YES_NO_BUTTONS, null, null, null, null, {}) == 0;
+        return Services.prompt.confirmEx(null, "MP4 Downloader", msg, Services.prompt.STD_YES_NO_BUTTONS, null, null, null, null, {}) == 0;
     },
     
     // Show and optionally report an error message
@@ -38,8 +41,7 @@ var util = {
         this.alert(msg + "\n\n" + this.getString("mp4downloader", "reportmsg"));
         // NOTE: below is if someday we get an online automatic error reporting system in place
         /*
-        var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"].getService(Components.interfaces.nsIWindowMediator);
-        var browserWindow = wm ? wm.getMostRecentWindow("navigator:browser") : null;
+        var browserWindow = Services.wm.getMostRecentWindow("navigator:browser");
         if (!browserWindow) {
             this.alert(msg);
         } else {
@@ -65,7 +67,7 @@ var util = {
     // Get a string from a string bundle, optionally from a formatted string
     getString: function (bundlename, name, formats) {
         if (!bundles.hasOwnProperty(bundlename)) {
-            bundles[bundlename] = Components.classes["@mozilla.org/intl/stringbundle;1"].getService(Components.interfaces.nsIStringBundleService).createBundle("chrome://mp4downloader/locale/" + bundlename + ".properties")
+            bundles[bundlename] = Services.strings.createBundle("chrome://mp4downloader/locale/" + bundlename + ".properties")
         }
         var bundle = bundles[bundlename];
         try {
@@ -224,17 +226,15 @@ var util = {
     // Return an nsIURL object from a window.location object, a nsIURI instance, or a string
     // (and optionally a base to base it off of, if path is a string)
     makeURL: function (path, base) {
-        if (!services.io) services.io = Components.classes["@mozilla.org/network/io-service;1"].getService(Components.interfaces.nsIIOService);
-        
         if (path.href) path = path.href;
         if (typeof path == "string") {
             if (base && base.href) base = base.href;
             if (typeof base == "string" && base.length > 0) {
-                base = io.newURI(base, null, null);
+                base = Services.io.newURI(base, null, null);
             }
             if (!(base && base instanceof Components.interfaces.nsIURI)) base = null;
             
-            return services.io.newURI(path, null, base).QueryInterface(Components.interfaces.nsIURL);
+            return Services.io.newURI(path, null, base).QueryInterface(Components.interfaces.nsIURL);
         } else if (path instanceof Components.interfaces.nsIURI) {
             return path.QueryInterface(Components.interfaces.nsIURL);
         } else {
@@ -265,10 +265,15 @@ var util = {
         };
     },
     
+    // Get a new XMLHttpRequest
+    getXMLHttpRequest: function () {
+        return new Services.appShell.hiddenDOMWindow.XMLHttpRequest();
+    },
+    
     // Get the name of the current product
     getBrand: function () {
         if (typeof this.brandstrings == "undefined") {
-            this.brandstrings = Components.classes["@mozilla.org/intl/stringbundle;1"].getService(Components.interfaces.nsIStringBundleService).createBundle("chrome://branding/locale/brand.properties");
+            this.brandstrings = Services.strings.createBundle("chrome://branding/locale/brand.properties");
         }
         return this.brandstrings.GetStringFromName("brandShortName");
     },
