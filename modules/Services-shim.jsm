@@ -1,5 +1,5 @@
 // Based on resource://gre/modules/Services.jsm
-// This is a shim for Firefox 3
+// This is a shim for Firefox 3 (the real Services.jsm was introduced in Firefox 4)
 
 this.EXPORTED_SYMBOLS = ["Services"];
 
@@ -11,13 +11,10 @@ this.Services = {};
 
 function defineLazyGetter(aName, aLambda) {
     // Based on defineLazyGetter in resource://gre/modules/XPCOMUtils.jsm
-    Object.defineProperty(Services, aName, {
-        get: function () {
-            delete Services[aName];
-            return Services[aName] = aLambda.apply(Services);
-        },
-        configurable: true,
-        enumerable: true
+    // We don't have Object.defineProperty yet
+    Services.__defineGetter__(aName, function () {
+        delete Services[aName];
+        return Services[aName] = aLambda.apply(Services);
     });
 }
 
@@ -29,7 +26,7 @@ function defineLazyServiceGetter(aName, aContract, aInterfaceName) {
 }
 
 
-// Below is copied from Services.jsm, with defineLazyGetter and defineLazyServiceGetter replaced with alternates from above
+// Below is copied from Services.jsm, with defineLazyGetter and defineLazyServiceGetter calls replaced with the alternates from above
 
 defineLazyGetter("prefs", function () {
   return Cc["@mozilla.org/preferences-service;1"]
