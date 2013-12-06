@@ -1,12 +1,9 @@
 ---
 layout: mp4downloader
 title: Sincronizar a iPod - Documentación
+base: ipod
 lang: es
-langs:
-  - name: English
-    page: ipod.html
-  - name: "Español"
-    page: ipod.es.html
+langs: {"": English, es: "Español"}
 ---
 ## Sincronizar a iPod
 

@@ -1,14 +1,11 @@
 ---
 layout: mp4downloader
 title: Registro de Cambios - Firefox
+base: "../firefox/"
 lang: es
-langs:
-  - name: English
-    page: "/mp4downloader/changelog/firefox/"
-  - name: "Español"
-    page: index.es.html
+langs: {"": English, es: "Español"}
 ---
-## [Registro de Cambios de MP4 Downloader](/mp4downloader/changelog/index.es.html)
+## [Registro de Cambios de MP4 Downloader](index.es.html)
 
 ### MP4 Downloader para Firefox
 

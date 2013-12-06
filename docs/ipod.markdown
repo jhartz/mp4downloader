@@ -1,11 +1,8 @@
 ---
 layout: mp4downloader
 title: Sync to iPod - Documentation
-langs:
-  - name: English
-    page: ipod.html
-  - name: "Español"
-    page: ipod.es.html
+base: ipod
+langs: {"": English, es: "Español"}
 ---
 ## Sync to iPod
 

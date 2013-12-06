@@ -1,13 +1,10 @@
 ---
 layout: mp4downloader
 title: Changelog - Firefox
-langs:
-  - name: English
-    page: "/mp4downloader/changelog/firefox/"
-  - name: "Español"
-    page: index.es.html
+base: "../firefox/"
+langs: {"": English, es: "Español"}
 ---
-## [MP4 Downloader Changelog](/mp4downloader/changelog/)
+## [MP4 Downloader Changelog](../changelog/)
 
 ### MP4 Downloader for Firefox
 
