@@ -4,9 +4,9 @@ title: Sincronizar a iPod - Documentación
 lang: es
 langs:
   - name: English
-    page: "../docs/ipod.html"
+    page: ipod.html
   - name: "Español"
-    page: "../docs-es/ipod.html"
+    page: ipod.es.html
 ---
 ## Sincronizar a iPod
 

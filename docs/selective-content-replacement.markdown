@@ -3,9 +3,9 @@ layout: mp4downloader
 title: Selective Content Replacement - Documentation
 langs:
   - name: English
-    page: "../docs/selective-content-replacement.html"
+    page: selective-content-replacement.html
   - name: "Español"
-    page: "../docs-es/selective-content-replacement.html"
+    page: selective-content-replacement.es.html
 ---
 ## Selective Content Replacement
 

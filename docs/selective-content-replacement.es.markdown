@@ -4,9 +4,9 @@ title: Reemplazo de Contenido Selectiva - Documentación
 lang: es
 langs:
   - name: English
-    page: "../docs/selective-content-replacement.html"
+    page: selective-content-replacement.html
   - name: "Español"
-    page: "../docs-es/selective-content-replacement.html"
+    page: selective-content-replacement.es.html
 ---
 ## Reemplazo de Contenido Selectiva
 

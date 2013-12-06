@@ -3,9 +3,9 @@ layout: mp4downloader
 title: Sync to iPod - Documentation
 langs:
   - name: English
-    page: "../docs/ipod.html"
+    page: ipod.html
   - name: "Español"
-    page: "../docs-es/ipod.html"
+    page: ipod.es.html
 ---
 ## Sync to iPod
 
