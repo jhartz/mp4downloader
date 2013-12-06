@@ -26,7 +26,7 @@ If this is the first time you are importing an MP4 Downloader video to your iPod
 
 If you get a message saying that the video won't sync because it is in a format that the iPod doesn't understand, select the video in iTunes, go to the *Advanced* menu, and select *Create iPod or iPhone Version*.
 
-If you have any issues syncing a video to your iPod, please [contact us](../contact.html) and we will be pleased to help.
+If you have any issues syncing a video to your iPod, please [contact us](../contact.es.html) and we will be pleased to help.
 
 [!["Movies tab"][movies-small]][movies]
 
