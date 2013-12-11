@@ -1,0 +1,6 @@
+{% comment %}
+NOTE: Make sure that when you change this file you update the versions in the _includes directories of other gh-pages repos!!!
+{% endcomment %}{% for image in imagegallery %}<figure>
+    <p><a rel="shadowbox{% if gallery and gallery != '' %}[{{ gallery | escape }}]{% endif %}"{% if image.caption %} title="{{ image.caption | escape }}"{% endif %} href="{{ image.url | escape }}"><img src="{% if image.thumburl %}{{ image.thumburl | escape }}{% else %}{{ image.url | escape }}{% endif %}"{% if image.id %} id="{{ image.id | escape}}"{% endif %}{% if image.caption %} alt="{{ image.caption | escape }}"{% endif %}></a></p>
+    <figcaption>{{ image.caption | escape }}</figcaption>
+</figure>{% endfor %}

@@ -4,74 +4,57 @@ shadowbox: 1
 title: Screenshots
 base: screenshots
 langs: {"": English, es: "Español"}
+
+# For use below (easier to write it out here)
+screenshots:
+  - url: images/screenshots/toolbar.png
+    thumburl: images/screenshots/toolbar-button.png
+    id: Toolbarbutton
+    caption: Toolbar button
+  - url: images/screenshots/prefs-general.png
+    thumburl: images/screenshots/prefs-general-thumb.png
+    id: Optionsdialog
+    caption: 'Preferences (General)'
+  - url: images/screenshots/prefs-download-location.png
+    thumburl: images/screenshots/prefs-download-location-thumb.png
+    id: Preferences_DownloadLocation
+    caption: 'Preferences (Download Location)'
+  - url: images/screenshots/prefs-default-filename.png
+    thumburl: images/screenshots/prefs-default-filename-thumb.png
+    id: Preferences_DefaultFilename
+    caption: 'Preferences (Default Filename)'
+  - url: images/screenshots/video-page-youtube.png
+    thumburl: images/screenshots/video-page-youtube-thumb.png
+    id: DownloadbuttonplacedinsideYouTubevideopage
+    caption: 'Download button inside YouTube video page'
+  - url: images/screenshots/video-page-dailymotion.png
+    thumburl: images/screenshots/video-page-dailymotion-thumb.png
+    id: DownloadbuttonplacedinsideDailymotionvideopage
+    caption: 'Download button inside Dailymotion video page'
+  - url: images/screenshots/video-page-vimeo.png
+    thumburl: images/screenshots/video-page-vimeo-thumb.png
+    id: DownloadbuttonplacedinsideVimeovideopage
+    caption: 'Download button inside Vimeo video page'
+  - url: images/screenshots/context-menu.png
+    thumburl: images/screenshots/context-menu-thumb.png
+    id: Contextmenuofvideopage
+    caption: 'Context menu of video page'
+  - url: images/screenshots/context-menu-link.png
+    thumburl: images/screenshots/context-menu-link.png
+    id: Contextmenuoflinktovideo
+    caption: 'Context menu of link to video'
+  - url: images/screenshots/embed-youtube.png
+    thumburl: images/screenshots/embed-youtube-thumb.png
+    id: DownloadbuttonplacedbelowembeddedYouTubevideo
+    caption: 'Download button below embedded YouTube video'
+  - url: images/screenshots/embed-dailymotion.png
+    thumburl: images/screenshots/embed-dailymotion-thumb.png
+    id: Button_Dailymotion_Embed
+    caption: 'Download button below embedded Dailymotion video'
 ---
 <h2>Screenshots</h2>
 <p>Click on an image to view a larger, more detailed version.</p>
 
-{% assign url = 'images/screenshots/toolbar.png' %}
-{% assign thumburl = 'images/screenshots/toolbar-button.png' %}
-{% assign id = 'Toolbarbutton' %}
-{% assign caption = 'Toolbar button' %}
-{% include screenshot.html %}
-
-{% assign url = 'images/screenshots/prefs-general.png' %}
-{% assign thumburl = 'images/screenshots/prefs-general-thumb.png' %}
-{% assign id = 'Optionsdialog' %}
-{% assign caption = 'Preferences (General)' %}
-{% include screenshot.html %}
-
-{% assign url = 'images/screenshots/prefs-download-location.png' %}
-{% assign thumburl = 'images/screenshots/prefs-download-location-thumb.png' %}
-{% assign id = 'Preferences_DownloadLocation' %}
-{% assign caption = 'Preferences (Download Location)' %}
-{% include screenshot.html %}
-
-{% assign url = 'images/screenshots/prefs-default-filename.png' %}
-{% assign thumburl = 'images/screenshots/prefs-default-filename-thumb.png' %}
-{% assign id = 'Preferences_DefaultFilename' %}
-{% assign caption = 'Preferences (Default Filename)' %}
-{% include screenshot.html %}
-
-{% assign url = 'images/screenshots/video-page-youtube.png' %}
-{% assign thumburl = 'images/screenshots/video-page-youtube-thumb.png' %}
-{% assign id = 'DownloadbuttonplacedinsideYouTubevideopage' %}
-{% assign caption = 'Download button inside YouTube video page' %}
-{% include screenshot.html %}
-
-{% assign url = 'images/screenshots/video-page-dailymotion.png' %}
-{% assign thumburl = 'images/screenshots/video-page-dailymotion-thumb.png' %}
-{% assign id = 'DownloadbuttonplacedinsideDailymotionvideopage' %}
-{% assign caption = 'Download button inside Dailymotion video page' %}
-{% include screenshot.html %}
-
-{% assign url = 'images/screenshots/video-page-vimeo.png' %}
-{% assign thumburl = 'images/screenshots/video-page-vimeo-thumb.png' %}
-{% assign id = 'DownloadbuttonplacedinsideVimeovideopage' %}
-{% assign caption = 'Download button inside Vimeo video page' %}
-{% include screenshot.html %}
-
-{% assign url = 'images/screenshots/context-menu.png' %}
-{% assign thumburl = 'images/screenshots/context-menu-thumb.png' %}
-{% assign id = 'Contextmenuofvideopage' %}
-{% assign caption = 'Context menu of video page' %}
-{% include screenshot.html %}
-
-{% assign url = 'images/screenshots/context-menu-link.png' %}
-{% assign thumburl = 'images/screenshots/context-menu-link.png' %}
-{% assign id = 'Contextmenuoflinktovideo' %}
-{% assign caption = 'Context menu of link to video' %}
-{% include screenshot.html %}
-
-{% assign url = 'images/screenshots/embed-youtube.png' %}
-{% assign thumburl = 'images/screenshots/embed-youtube-thumb.png' %}
-{% assign id = 'DownloadbuttonplacedbelowembeddedYouTubevideo' %}
-{% assign caption = 'Download button below embedded YouTube video' %}
-{% include screenshot.html %}
-
-{% assign url = 'images/screenshots/embed-dailymotion.png' %}
-{% assign thumburl = 'images/screenshots/embed-dailymotion-thumb.png' %}
-{% assign id = 'Button_Dailymotion_Embed' %}
-{% assign caption = 'Download button below embedded Dailymotion video' %}
-{% include screenshot.html %}
+{% assign gallery = 'Screenshots' %}{% assign imagegallery = page.screenshots %}{% include imagegallery.html %}
 
 <p class="license"><a href="http://creativecommons.org/licenses/by-sa/3.0/"><img alt="Creative Commons License" style="border-width: 0;" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png"></a><br>All screenshots are licensed under a <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.</p>
