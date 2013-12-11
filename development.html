@@ -6,7 +6,7 @@ langs: {"": English, es: "Español"}
 ---
 <h2>Development</h2>
 
-<h3>Versioning and Release Schedule Terminology</h3>
+<h3 id="VersioningAndReleaseScheduleTerminology">Versioning and Release Schedule Terminology</h3>
 <p>There are two main categories of MP4 Downloader versions: <strong>released versions</strong> and <strong>pre-release versions</strong>. The released versions are deemed stable for normal use; the latest released version is available for download on the <a href="firefox/">download page</a>.</p>
 
 <p>Any MP4 Downloader version that is not yet released (ie. not the version available for download on the <a href="firefox/">download page</a>) is considered a "pre-release" version. There are two types of pre-release versions:</p>
@@ -15,7 +15,7 @@ langs: {"": English, es: "Español"}
     <li><a href="firefox/nightly.html">Nightly builds</a> are automatically-generated MP4 Downloader builds based on the very latest source code in the master branch of the git repository (see below). These builds have no guarantees of stability - code in a nightly build can be completely untested.</li>
 </ul>
 
-<h3>Source Code</h3>
+<h3 id="SourceCode">Source Code</h3>
 <p>The source code for the MP4 Downloader Firefox add-on, the MP4 Downloader bookmarklet, and the MP4 Downloader website (including this page) is located in the git repository on GitHub: <a href="https://github.com/jhartz/mp4downloader">https://github.com/jhartz/mp4downloader</a></p>
 
 <ul>
@@ -26,10 +26,10 @@ langs: {"": English, es: "Español"}
 
 <p>To contribute to any of these sections of the MP4 Downloader source code, just <a href="https://help.github.com/articles/fork-a-repo">fork the repo</a> and <a href="https://help.github.com/articles/using-pull-requests/">send a pull request</a>.</p>
 
-<h3>Developer Documentation</h3>
+<h3 id="DeveloperDocumentation">Developer Documentation</h3>
 <p>Documentation used in the development of MP4 Downloader is located on the <a href="https://github.com/jhartz/mp4downloader/wiki">wiki</a>.</p>
 
-<h3>Version Numbers</h3>
+<h3 id="VersionNumbers">Version Numbers</h3>
 <p>The version numbers for the MP4 Downloader add-on, starting with the release of MP4 Downloader 2.0.0:</p>
 <ul>
     <li>MP4 Downloader version numbers follow a <code>supermajor.major.minor</code> pattern:
@@ -44,7 +44,7 @@ langs: {"": English, es: "Español"}
     <li>Occasionally, beta versions may have a version number in the form of <code>0.0rc</code> if it is exactly the same as the currently released version (ie. no new beta version has been published since the last release).</li>
 </ul>
 
-<h3>Git Branching and Tagging</h3>
+<h3 id="GitBranchingAndTagging">Git Branching and Tagging</h3>
 <ul>
     <li>All new MP4 Downloader development (except urgent bugfixes) is done on in the "master" branch (or other branches intended to be merged into master once their changes are complete).</li>
     <li>When the master branch is ready for a release, it is tagged with the new version number (<code>v0.0</code> where the first number is the supermajor version number and the second number is the major version number). Likewise, beta versions are tagged similarly as well (<code>v0.0b0</code> - explanation above).</li>
