@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013  Jake Hartz
+    Copyright (C) 2014  Jake Hartz
     This source code is licensed under the GNU General Public License version 3.
     For details, see the LICENSE.txt file.
 */
