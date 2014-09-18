@@ -1,6 +1,6 @@
 /*
     MP4 Downloader Bookmarklet
-    Copyright (C) 2013 Jake Hartz
+    Copyright (C) 2014 Jake Hartz
     
     This is the minified version of this file.
     See bookmarklet.js for full source code and license.

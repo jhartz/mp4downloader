@@ -1,6 +1,6 @@
 /*
     MP4 Downloader Bookmarklet
-    Copyright (C) 2013 Jake Hartz
+    Copyright (C) 2014 Jake Hartz
     
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
