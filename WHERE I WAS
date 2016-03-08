@@ -2,3 +2,8 @@ https://github.com/rg3/youtube-dl/blob/master/youtube_dl/extractor/youtube.py
 http://www.softwareishard.com/blog/firebug/hacking-on-firebug/
 https://addons.mozilla.org/en-US/firefox/files/browse/226212/file/content/yt.user.js#top
 https://github.com/jhartz/mp4downloader/wiki/Video-Site-Module
+
+TODO
+====
+
+- In some util jsm, add a "makeError" function (or SiteError constructor that inherits from Error) that takes 2 params: a localized description, and a string with more info (used if an error report is sent). This should return an instance of Error, suitable for use in a Promise rejection.

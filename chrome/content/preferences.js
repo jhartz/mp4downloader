@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014  Jake Hartz
+    Copyright (C) 2016  Jake Hartz
     This source code is licensed under the GNU General Public License version 3.
     For details, see the LICENSE.txt file.
 */
@@ -106,7 +106,7 @@ var mp4downloader_preferences = {
     
     chooseFolder: function () {
         var fp = Components.classes["@mozilla.org/filepicker;1"].createInstance(Components.interfaces.nsIFilePicker);
-        fp.init(window, mp4downloader.util.getString("preferences", "choosefolder"), Components.interfaces.nsIFilePicker.modeGetFolder);
+        fp.init(window, mp4downloader.utils.getString("preferences", "choosefolder"), Components.interfaces.nsIFilePicker.modeGetFolder);
         fp.appendFilters(Components.interfaces.nsIFilePicker.filterAll);
         
         // First try to open what's currently configured
@@ -161,7 +161,7 @@ var mp4downloader_preferences = {
     // (called from onload code)
     updateLabel: function (currentVersion) {
         if (currentVersion) {
-            document.getElementById("titleLabel").setAttribute("value", mp4downloader.util.getString("preferences", "nameversion", [currentVersion]));
+            document.getElementById("titleLabel").setAttribute("value", mp4downloader.utils.getString("preferences", "nameversion", [currentVersion]));
             
             // Add link to changelog
             var changelogVersion = currentVersion.match(/^([0-9.]+)(.*)$/); // to change "1.3.3b1" to "1.3.3"
@@ -175,7 +175,7 @@ var mp4downloader_preferences = {
 };
 
 window.addEventListener("load", function () {
-    Components.utils.import("resource://mp4downloader/util.jsm", mp4downloader);
+    Components.utils.import("resource://mp4downloader/utils.jsm", mp4downloader);
     
     // Set title at top
     try {

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014  Jake Hartz
+    Copyright (C) 2016  Jake Hartz
     This source code is licensed under the GNU General Public License version 3.
     For details, see the LICENSE.txt file.
 */
@@ -118,13 +118,13 @@ var mp4downloader = {
                                 videoTitle = decodeURIComponent(this.util.getFromString(flashvars, "&title=", "&").replace(/\+/g, " "));
                             } else if (contentWindow.document.getElementById("channel-body") || (contentWindow.document.getElementById("page") && contentWindow.document.getElementById("page").className.indexOf("channel") != -1)) {
                                 if (contentWindow.document.getElementById("playnav-curvideo-title")) {
-                                    videoTitle = this.util.trimString(contentWindow.document.getElementById("playnav-curvideo-title").textContent);
+                                    videoTitle = contentWindow.document.getElementById("playnav-curvideo-title").textContent.trim();
                                 } else if (contentWindow.document.getElementsByClassName("channels-featured-video-details").length > 0 || contentWindow.document.getElementsByClassName("video-detail").length > 0) {
                                     let dets = contentWindow.document.getElementsByClassName("channels-featured-video-details");
                                     if (dets.length == 0) dets = contentWindow.document.getElementsByClassName("video-detail");
                                     for (var i = 0; i < dets.length; i++) {
                                         if (dets[i].getElementsByClassName("title").length > 0) {
-                                            videoTitle = this.util.trimString(dets[i].getElementsByClassName("title")[0].getElementsByTagName("a")[0].textContent);
+                                            videoTitle = dets[i].getElementsByClassName("title")[0].getElementsByTagName("a")[0].textContent.trim();
                                         }
                                     }
                                 }
@@ -140,15 +140,15 @@ var mp4downloader = {
                             if (flashvars && flashvars.indexOf("&author=") != -1) {
                                 videoAuthor = decodeURIComponent(this.util.getFromString(flashvars, "&author=", "&"));
                             } else if (contentWindow.document.getElementById("watch-username")) {
-                                videoAuthor = this.util.trimString(contentWindow.document.getElementById("watch-username").textContent);
+                                videoAuthor = contentWindow.document.getElementById("watch-username").textContent.trim();
                             } else if (contentWindow.document.getElementById("un")) {
                                 // Feather
-                                videoAuthor = this.util.trimString(contentWindow.document.getElementById("un").textContent);
+                                videoAuthor = contentWindow.document.getElementById("un").textContent.trim();
                             } else if (contentWindow.document.getElementById("watch-uploader-info") && contentWindow.document.getElementById("watch-uploader-info").getElementsByClassName("author").length > 0) {
-                                videoAuthor = this.util.trimString(contentWindow.document.getElementById("watch-uploader-info").getElementsByClassName("author")[0].textContent);
+                                videoAuthor = contentWindow.document.getElementById("watch-uploader-info").getElementsByClassName("author")[0].textContent.trim();
                             } else if (contentWindow.document.getElementById("de") && contentWindow.document.getElementById("de").getElementsByClassName("author").length > 0) {
                                 // Feather
-                                videoAuthor = this.util.trimString(contentWindow.document.getElementById("de").getElementsByClassName("author")[0].textContent);
+                                videoAuthor = contentWindow.document.getElementById("de").getElementsByClassName("author")[0].textContent.trim();
                             }
                             
                             if (flashvars.indexOf("&fmt_url_map=") != -1 || flashvars.indexOf("&url_encoded_fmt_stream_map=") != -1) {
@@ -195,7 +195,7 @@ var mp4downloader = {
                                         }
                                     }
                                 }
-                                if ((mp4downloader.util.prefs.getBoolPref("hq") || !fmt18url) && (fmt22url || fmt37url)) {
+                                if ((mp4downloader.utils.prefs.getBoolPref("hq") || !fmt18url) && (fmt22url || fmt37url)) {
                                     if (fmt37url) {
                                         this.util.log("YouTube format: 37 (1080p)");
                                         this.saveVideo(fmt37url, "http://www.youtube.com/watch?v=" + videoID, videoTitle, videoAuthor, "YouTube", true);
@@ -241,7 +241,7 @@ var mp4downloader = {
                                 }
                                 if (token) {
                                     var fmt = "18"; // Normal quality
-                                    if (mp4downloader.util.prefs.getBoolPref("hq") && flashvars.indexOf("&fmt_map=") != -1) {
+                                    if (mp4downloader.utils.prefs.getBoolPref("hq") && flashvars.indexOf("&fmt_map=") != -1) {
                                         var fmt_map_tmp = this.util.getFromString(flashvars, "&fmt_map=", "&");
                                         fmt_map_tmp = decodeURIComponent(fmt_map_tmp).split(",");
                                         var fmt_map = "";
@@ -301,7 +301,7 @@ var mp4downloader = {
                     if (flashvars) sequence = decodeURIComponent(this.util.getFromString(flashvars, "&sequence=", "&"));
                     // TODO: We should modularize site backends (a JSM for each site) and then we can just make a parseSequence function so we can keep similar code between this function and the Dailymotion AJAX function without copy/pasting!
                     if (sequence) {
-                        var videoTitle = this.util.trimString((contentWindow.document.getElementById("content") || contentWindow.document.getElementById("wrapper") || contentWindow.document.body || contentWindow.document).getElementsByTagName("h1")[0].textContent);
+                        var videoTitle = (contentWindow.document.getElementById("content") || contentWindow.document.getElementById("wrapper") || contentWindow.document.body || contentWindow.document).getElementsByTagName("h1")[0].textContent.trim();
                         var videoAuthor = this.util.getFromString(sequence, '"videoOwnerLogin":"', '"').replace(/\\\//g, "/") || null;
                         
                         var videoURLs = [];
@@ -327,7 +327,7 @@ var mp4downloader = {
                         }
                         
                         if (videoTitle && videoURLs.length > 0) {
-                            if (mp4downloader.util.prefs.getBoolPref("hq")) {
+                            if (mp4downloader.utils.prefs.getBoolPref("hq")) {
                                 // Get bottommost URL, which is the highest quality
                                 this.saveVideo(videoURLs[videoURLs.length - 1], contentWindow.location.href, videoTitle, videoAuthor, "Dailymotion", true);
                                 return;
@@ -356,7 +356,7 @@ var mp4downloader = {
                     var clipID = path.match(/^\/([0-9]+)/)[1];
                     var videoTitle = contentWindow.document.getElementById("header").getElementsByClassName("title")[0].textContent;
                     var videoAuthor = contentWindow.document.getElementById("header").getElementsByClassName("byline")[0].getElementsByTagName("a")[0].textContent;
-                    if (mp4downloader.util.prefs.getBoolPref("hq")) {
+                    if (mp4downloader.utils.prefs.getBoolPref("hq")) {
                         this.saveVideo("http://vimeo.com/play_redirect?clip_id=" + clipID + "&quality=hd", contentWindow.location.href, videoTitle, videoAuthor, "Vimeo", true);
                     } else {
                         this.saveVideo("http://vimeo.com/play_redirect?clip_id=" + clipID + "&quality=sd", contentWindow.location.href, videoTitle, videoAuthor, "Vimeo", false);
@@ -408,9 +408,9 @@ var mp4downloader = {
                             var flashvars = players[0].getAttribute("flashvars");
                             
                             /* OLD
-                            var videoTitle = this.util.trimString(contentWindow.document.getElementById("video_info").getElementsByClassName("video_title")[0].textContent);
+                            var videoTitle = contentWindow.document.getElementById("video_info").getElementsByClassName("video_title")[0].textContent.trim();
                             if (videoTitle.substring(videoTitle.length - 4) == "[HQ]" || videoTitle.substring(videoTitle.length - 4) == "[HD]") {
-                                videoTitle = this.util.trimString(videoTitle.substring(0, videoTitle.length - 4));
+                                videoTitle = videoTitle.substring(0, videoTitle.length - 4).trim();
                             }
                             */
                             
@@ -486,7 +486,7 @@ var mp4downloader = {
             videoTitle = this.util.getString("mp4downloader", "video");
         }
         
-        var saveMode = mp4downloader.util.prefs.getIntPref("saveMode") || 0;
+        var saveMode = mp4downloader.utils.prefs.getIntPref("saveMode") || 0;
         var useDTA = false;
         if (saveMode == 3) {
             if (window.DTA_AddingFunctions || window.DTA) {
@@ -520,8 +520,8 @@ var mp4downloader = {
             SECOND: now.getSeconds().toString().length == 1 ? "0" + now.getSeconds().toString() : now.getSeconds()
         };
         
-        if (mp4downloader.util.prefs.getCharPref("defaultFilename")) {
-            videoTitle = this.util.parseString(mp4downloader.util.prefs.getCharPref("defaultFilename"), replaces);
+        if (mp4downloader.utils.prefs.getCharPref("defaultFilename")) {
+            videoTitle = this.util.parseString(mp4downloader.utils.prefs.getCharPref("defaultFilename"), replaces);
         }
         
         // Normalize filename
@@ -533,7 +533,7 @@ var mp4downloader = {
         } else {
             var illegalChars = /[/\\\x00]+/g;
         }
-        videoTitle = videoTitle.replace(illegalChars, mp4downloader.util.prefs.getCharPref("illegalCharReplacement"));
+        videoTitle = videoTitle.replace(illegalChars, mp4downloader.utils.prefs.getCharPref("illegalCharReplacement"));
         
         if (useDTA) {
             var item = {
@@ -548,7 +548,7 @@ var mp4downloader = {
                     return;
                 }
             };
-            if (mp4downloader.util.prefs.getBoolPref("dtaOneClick")) {
+            if (mp4downloader.utils.prefs.getBoolPref("dtaOneClick")) {
                 if (window.DTA && (window.DTA.turboSendToDown || window.DTA.turboSendLinksToManager)) {
                     this.util.log("Using DTA 2.0 OneClick functions");
                     (window.DTA.turboSendToDown || window.DTA.turboSendLinksToManager)(window, [item]);
@@ -557,7 +557,7 @@ var mp4downloader = {
                     window.DTA_AddingFunctions.turboSendToDown([item]);
                 }
             } else {
-                if (window.DTA && mp4downloader.util.prefs.getBoolPref("dtaAutoMask") && window.DTA.saveSingleItem) {
+                if (window.DTA && mp4downloader.utils.prefs.getBoolPref("dtaAutoMask") && window.DTA.saveSingleItem) {
                     // This sets the mask to *text*.mp4 for any future dTa dowloads until the user changes it back, which is why this isn't the default
                     this.util.log("Using DTA 2.0 functions with mask");
                     window.DTA.saveSingleItem(window, false, item);
@@ -604,7 +604,7 @@ var mp4downloader = {
             }
             
             if (saveMode == 1) {
-                var prefix = mp4downloader.util.prefs.getCharPref("saveLocation");
+                var prefix = mp4downloader.utils.prefs.getCharPref("saveLocation");
                 if (prefix.length > 0) {
                     prefix = this.util.parseString(prefix, replaces);
                     try {
@@ -640,7 +640,7 @@ var mp4downloader = {
                 }
             }
             
-            if (mp4downloader.util.prefs.getBoolPref("savePrompt") && !mp4downloader.util.confirm(this.util.getString("mp4downloader", "prompt_useSaveDir", [videoTitle, dir.path]))) {
+            if (mp4downloader.utils.prefs.getBoolPref("savePrompt") && !mp4downloader.utils.confirm(this.util.getString("mp4downloader", "prompt_useSaveDir", [videoTitle, dir.path]))) {
                 return this.promptAndSave(targetURL, videoTitle, refer);
             }
             
@@ -740,21 +740,21 @@ var mp4downloader = {
             Req.onreadystatechange = function () {
                 if (Req.readyState == 4) {
                     if (Req.status == 200 && Req.responseText) {
-                        mp4downloader.util.log("YouTube AJAX received");
+                        mp4downloader.utils.log("YouTube AJAX received");
                         var flashvars = "&" + Req.responseText;
-                        var videoTitle = mp4downloader.util.getString("mp4downloader", "sitevideo", ["YouTube"]);
+                        var videoTitle = mp4downloader.utils.getString("mp4downloader", "sitevideo", ["YouTube"]);
                         if (flashvars.indexOf("&title=") != -1) {
-                            videoTitle = decodeURIComponent(mp4downloader.util.getFromString(flashvars, "&title=", "&").replace(/\+/g, " "));
+                            videoTitle = decodeURIComponent(mp4downloader.utils.getFromString(flashvars, "&title=", "&").replace(/\+/g, " "));
                         }
                         var videoAuthor = null;
                         if (flashvars.indexOf("&author=") != -1) {
-                            videoAuthor = decodeURIComponent(mp4downloader.util.getFromString(flashvars, "&author=", "&").replace(/\+/g, " "));
+                            videoAuthor = decodeURIComponent(mp4downloader.utils.getFromString(flashvars, "&author=", "&").replace(/\+/g, " "));
                         }
                         if (flashvars.indexOf("&fmt_url_map=") != -1 || flashvars.indexOf("&url_encoded_fmt_stream_map=") != -1) {
                             var fmt18url, fmt22url, fmt37url;
                             if (flashvars.indexOf("&url_encoded_fmt_stream_map=") != -1) {
                                 // Parse fmt_stream_map (kinda like fmt_url_map) - http://en.wikipedia.org/wiki/YouTube#Quality_and_codecs
-                                let fmt_url_map = decodeURIComponent(mp4downloader.util.getFromString(flashvars, "&url_encoded_fmt_stream_map=", "&")).split(",");
+                                let fmt_url_map = decodeURIComponent(mp4downloader.utils.getFromString(flashvars, "&url_encoded_fmt_stream_map=", "&")).split(",");
                                 for (let i = 0; i < fmt_url_map.length; i++) {
                                     let format, url, sig;
                                     let fmt_vars = fmt_url_map[i].split("&");
@@ -780,7 +780,7 @@ var mp4downloader = {
                                 }
                             } else {
                                 // Parse fmt_url_map (Format-URL Map) - http://en.wikipedia.org/wiki/YouTube#Quality_and_codecs
-                                let fmt_url_map = decodeURIComponent(mp4downloader.util.getFromString(flashvars, "&fmt_url_map=", "&")).split(",");
+                                let fmt_url_map = decodeURIComponent(mp4downloader.utils.getFromString(flashvars, "&fmt_url_map=", "&")).split(",");
                                 for (let i = 0; i < fmt_url_map.length; i++) {
                                     let format = fmt_url_map[i].substring(0, 2);
                                     if (format == "18") { // Normal quality
@@ -796,28 +796,28 @@ var mp4downloader = {
                             }
                             
                             // Download HQ version if there is no standard-quality version
-                            if ((mp4downloader.util.prefs.getBoolPref("hq") || !fmt18url) && (fmt22url || fmt37url)) {
+                            if ((mp4downloader.utils.prefs.getBoolPref("hq") || !fmt18url) && (fmt22url || fmt37url)) {
                                 if (fmt37url) {
-                                    mp4downloader.util.log("YouTube format: 37 (1080p)");
+                                    mp4downloader.utils.log("YouTube format: 37 (1080p)");
                                     mp4downloader.saveVideo(fmt37url, "http://www.youtube.com/watch?v=" + videoID, videoTitle, videoAuthor, "YouTube", true);
                                 } else if (fmt22url) {
-                                    mp4downloader.util.log("YouTube format: 22 (720p)");
+                                    mp4downloader.utils.log("YouTube format: 22 (720p)");
                                     mp4downloader.saveVideo(fmt22url, "http://www.youtube.com/watch?v=" + videoID, videoTitle, videoAuthor, "YouTube", true);
                                 }
                             } else {
-                                mp4downloader.util.log("YouTube format: 18 (normal quality)");
+                                mp4downloader.utils.log("YouTube format: 18 (normal quality)");
                                 if (fmt18url) {
                                     mp4downloader.saveVideo(fmt18url, "http://www.youtube.com/watch?v=" + videoID, videoTitle, videoAuthor, "YouTube", false);
                                 } else {
                                     // Fallback in case we cannot get a download URL from fmt_url_map
-                                    mp4downloader.util.alert(mp4downloader.util.getString("mp4downloader", "error_noMP4", ["YouTube"]));
+                                    mp4downloader.utils.alert(mp4downloader.utils.getString("mp4downloader", "error_noMP4", ["YouTube"]));
                                 }
                             }
                         } else {
                             /* OLD
                             var fmt = "18"; // Normal quality
-                            if (flashvars.indexOf("&fmt_map=") != -1 && mp4downloader.util.prefs.getBoolPref("hq")) {
-                                let fmt_map_tmp = mp4downloader.util.getFromString(flashvars, "&fmt_map=", "&");
+                            if (flashvars.indexOf("&fmt_map=") != -1 && mp4downloader.utils.prefs.getBoolPref("hq")) {
+                                let fmt_map_tmp = mp4downloader.utils.getFromString(flashvars, "&fmt_map=", "&");
                                 fmt_map_tmp = decodeURIComponent(fmt_map_tmp).split(",");
                                 let fmt_map = "";
                                 for (let i = 0; i < fmt_map_tmp.length; i++) {
@@ -828,35 +828,35 @@ var mp4downloader = {
                                 } else if (fmt_map.indexOf("22:") != -1) {
                                     fmt = "22"; // 720p
                                 }
-                                mp4downloader.util.log("YouTube format: " + fmt);
+                                mp4downloader.utils.log("YouTube format: " + fmt);
                             }
-                            mp4downloader.saveVideo("http://www.youtube.com/get_video?video_id=" + videoID + "&t=" + mp4downloader.util.getFromString(flashvars, "&token=", "&") + "&fmt=" + fmt + "&el=detailpage&asv=", "http://www.youtube.com/watch?v=" + videoID, videoTitle, videoAuthor, "YouTube", ((fmt == "37" || fmt == "22") ? true : false));
+                            mp4downloader.saveVideo("http://www.youtube.com/get_video?video_id=" + videoID + "&t=" + mp4downloader.utils.getFromString(flashvars, "&token=", "&") + "&fmt=" + fmt + "&el=detailpage&asv=", "http://www.youtube.com/watch?v=" + videoID, videoTitle, videoAuthor, "YouTube", ((fmt == "37" || fmt == "22") ? true : false));
                             */
                             if (flashvars.indexOf("status=fail") != -1) {
-                                var code = flashvars.indexOf("&errorcode=") != -1 ? mp4downloader.util.getFromString(flashvars, "&errorcode=", "&") : "00";
-                                var reason = flashvars.indexOf("&reason=") != -1 ? decodeURIComponent(mp4downloader.util.getFromString(flashvars, "&reason=", "&").replace(/\+/g, " ")) : "nothing";
+                                var code = flashvars.indexOf("&errorcode=") != -1 ? mp4downloader.utils.getFromString(flashvars, "&errorcode=", "&") : "00";
+                                var reason = flashvars.indexOf("&reason=") != -1 ? decodeURIComponent(mp4downloader.utils.getFromString(flashvars, "&reason=", "&").replace(/\+/g, " ")) : "nothing";
                                 if (reason.indexOf("<br") != -1) reason = reason.substring(0, reason.indexOf("<br"));
                                 
                                 // TODO: These tests don't work if the user's browser is in a different locale!
                                 // (YouTube's error messages will be in a different language.)
                                 // TODO: This will happen if we're on YouTube but they're using HTML5 (so we need to be able to get metadata from the HTML5 player)
                                 if (reason.toLowerCase().indexOf("embedding disabled by request") == 0 || reason.toLowerCase().indexOf("it is restricted from playback on certain sites") != -1) {
-                                    mp4downloader.util.alert(mp4downloader.util.getString("mp4downloader", "error_noembed", ["YouTube"]));
+                                    mp4downloader.utils.alert(mp4downloader.utils.getString("mp4downloader", "error_noembed", ["YouTube"]));
                                 } else if (reason.toLowerCase().indexOf("this video is not available in your country") == 0 || reason.toLowerCase().indexOf("the uploader has not made this video available in your country") == 0) {
-                                    mp4downloader.util.alert(mp4downloader.util.getString("mp4downloader", "error_blocked"));
+                                    mp4downloader.utils.alert(mp4downloader.utils.getString("mp4downloader", "error_blocked"));
                                 } else if (reason.toLowerCase().indexOf("this video is private") == 0) {
-                                    mp4downloader.util.alert(mp4downloader.util.getString("mp4downloader", "error_private"));
+                                    mp4downloader.utils.alert(mp4downloader.utils.getString("mp4downloader", "error_private"));
                                 } else if (reason.toLowerCase().indexOf("this video contains content from") == 0) {
-                                    mp4downloader.util.alert(mp4downloader.util.getString("mp4downloader", "error_copyright", ["YouTube", reason]));
+                                    mp4downloader.utils.alert(mp4downloader.utils.getString("mp4downloader", "error_copyright", ["YouTube", reason]));
                                 } else {
-                                    mp4downloader.util.error(mp4downloader.util.getString("mp4downloader", "error_youtube_getvideoinfo", [code, reason]), "videoID: " + videoID + (eURL ? "\neURL: " + eURL : ""));
+                                    mp4downloader.utils.error(mp4downloader.utils.getString("mp4downloader", "error_youtube_getvideoinfo", [code, reason]), "videoID: " + videoID + (eURL ? "\neURL: " + eURL : ""));
                                 }
                             } else {
-                                mp4downloader.util.error(mp4downloader.util.getString("mp4downloader", "error_generic", ["ajax.youtube", "no format-url-stream map"]));
+                                mp4downloader.utils.error(mp4downloader.utils.getString("mp4downloader", "error_generic", ["ajax.youtube", "no format-url-stream map"]));
                             }
                         }
                     } else {
-                        mp4downloader.util.error(mp4downloader.util.getString("mp4downloader", "error_ajax", ["YouTube", Req.status.toString()]), "videoID: " + videoID + (eURL ? "\neURL: " + eURL : ""));
+                        mp4downloader.utils.error(mp4downloader.utils.getString("mp4downloader", "error_ajax", ["YouTube", Req.status.toString()]), "videoID: " + videoID + (eURL ? "\neURL: " + eURL : ""));
                     }
                 }
             };
@@ -870,10 +870,10 @@ var mp4downloader = {
             Req.onreadystatechange = function () {
                 if (Req.readyState == 4) {
                     if (Req.status == 200 && Req.responseText) {
-                        mp4downloader.util.log("Dailymotion AJAX received (sequence)");
+                        mp4downloader.utils.log("Dailymotion AJAX received (sequence)");
                         
                         // We need to get the sequence, find all the strings we need, and put them into a simpler object
-                        var sequence = mp4downloader.util.parseJSON(Req.responseText);
+                        var sequence = JSON.parse(Req.responseText);
                         if (sequence) {
                             var vars = {};
                             var walker = function (obj) {
@@ -891,7 +891,7 @@ var mp4downloader = {
                             };
                             walker(sequence);
                             
-                            var videoTitle = vars["videoTitle"] || mp4downloader.util.getString("mp4downloader", "sitevideo", ["Dailymotion"]);
+                            var videoTitle = vars["videoTitle"] || mp4downloader.utils.getString("mp4downloader", "sitevideo", ["Dailymotion"]);
                             var videoAuthor = vars["videoOwnerLogin"] || null;
                             
                             var videoURLs = [];
@@ -902,7 +902,7 @@ var mp4downloader = {
                             if (vars["hd1080URL"] && vars["hd1080URL"].indexOf(".mp4") != -1) videoURLs.push(vars["hd1080URL"]);
                             
                             if (videoURLs.length > 0) {
-                                if (mp4downloader.util.prefs.getBoolPref("hq")) {
+                                if (mp4downloader.utils.prefs.getBoolPref("hq")) {
                                     // Get bottommost URL, which is the highest quality
                                     mp4downloader.saveVideo(videoURLs[videoURLs.length - 1], "http://www.dailymotion.com/video/" + videoID, videoTitle, videoAuthor, "Dailymotion", true);
                                     return;
@@ -913,7 +913,7 @@ var mp4downloader = {
                                 }
                             }
                         } else {
-                            mp4downloader.util.log("Couldn't parse sequence!");
+                            mp4downloader.utils.log("Couldn't parse sequence!");
                         }
                     } // (Req.status == 200 && Req.responseText)
                     
@@ -924,16 +924,16 @@ var mp4downloader = {
                     Req2.onreadystatechange = function () {
                         if (Req2.readyState == 4) {
                             if (Req2.status == 200 && Req2.responseText) {
-                                mp4downloader.util.log("Dailymotion AJAX received (stream_h264_url)");
-                                var data = mp4downloader.util.parseJSON(Req2.responseText);
+                                mp4downloader.utils.log("Dailymotion AJAX received (stream_h264_url)");
+                                var data = JSON.parse(Req2.responseText);
                                 if (data && data.stream_h264_url) {
-                                    mp4downloader.saveVideo(data.stream_h264_url, data.url || "http://www.dailymotion.com/video/" + videoID, data.title || (typeof videoTitle == "string" && videoTitle) || mp4downloader.util.getString("mp4downloader", "sitevideo", ["Dailymotion"]), data.owner_username || null, "Dailymotion", false);
+                                    mp4downloader.saveVideo(data.stream_h264_url, data.url || "http://www.dailymotion.com/video/" + videoID, data.title || (typeof videoTitle == "string" && videoTitle) || mp4downloader.utils.getString("mp4downloader", "sitevideo", ["Dailymotion"]), data.owner_username || null, "Dailymotion", false);
                                     return;
                                 } else {
-                                    mp4downloader.util.alert(mp4downloader.util.getString("mp4downloader", "error_noMP4", ["Dailymotion"]));
+                                    mp4downloader.utils.alert(mp4downloader.utils.getString("mp4downloader", "error_noMP4", ["Dailymotion"]));
                                 }
                             } else {
-                                mp4downloader.util.error(mp4downloader.util.getString("mp4downloader", "error_ajax", ["Dailymotion", Req.status.toString() + "/" + Req2.status.toString()]), "videoID: " + videoID);
+                                mp4downloader.utils.error(mp4downloader.utils.getString("mp4downloader", "error_ajax", ["Dailymotion", Req.status.toString() + "/" + Req2.status.toString()]), "videoID: " + videoID);
                             }
                         }
                     };
@@ -950,28 +950,28 @@ var mp4downloader = {
             Req.onreadystatechange = function () {
                 if (Req.readyState == 4) {
                     if (Req.status == 200 && Req.responseText) {
-                        mp4downloader.util.log("Vimeo AJAX received");
-                        var data = mp4downloader.util.parseJSON(Req.responseText);
+                        mp4downloader.utils.log("Vimeo AJAX received");
+                        var data = JSON.parse(Req.responseText);
                         if (data && data.request && data.video) {
                             // Make sure H264 version is available (some videos just have VP6 (flv container) or something else)
                             if (typeof data.video.files.h264 != "undefined") {
                                 var videoTitle = data.video.title;
                                 var videoAuthor = data.video.owner.name || null;
-                                if (mp4downloader.util.prefs.getBoolPref("hq") && data.video.hd) {
+                                if (mp4downloader.utils.prefs.getBoolPref("hq") && data.video.hd) {
                                     mp4downloader.saveVideo("http://" + data.request.player_url + "/play_redirect?quality=hd&codecs=h264&clip_id=" + data.video.id + "&time=" + data.request.timestamp + "&sig=" + data.request.signature + "&type=html5_desktop_embed", "http://vimeo.com/" + videoID, videoTitle, videoAuthor, "Vimeo", true);
                                 } else {
                                     mp4downloader.saveVideo("http://" + data.request.player_url + "/play_redirect?quality=sd&codecs=h264&clip_id=" + data.video.id + "&time=" + data.request.timestamp + "&sig=" + data.request.signature + "&type=html5_desktop_embed", "http://vimeo.com/" + videoID, videoTitle, videoAuthor, "Vimeo", false);
                                 }
                             } else {
-                                mp4downloader.util.alert(mp4downloader.util.getString("mp4downloader", "error_noMP4", ["Vimeo"]));
+                                mp4downloader.utils.alert(mp4downloader.utils.getString("mp4downloader", "error_noMP4", ["Vimeo"]));
                             }
                         } else if (data && data.title && data.title == "Sorry") {
-                            mp4downloader.util.error(mp4downloader.util.getString("mp4downloader", "error_vimeo", [data.message ? data.message.replace(/\\\//g, "/") : "nothing"]));
+                            mp4downloader.utils.error(mp4downloader.utils.getString("mp4downloader", "error_vimeo", [data.message ? data.message.replace(/\\\//g, "/") : "nothing"]));
                         } else {
-                            mp4downloader.util.error(mp4downloader.util.getString("mp4downloader", "error_generic", ["ajax.vimeo", "cannot get JSON data"]));
+                            mp4downloader.utils.error(mp4downloader.utils.getString("mp4downloader", "error_generic", ["ajax.vimeo", "cannot get JSON data"]));
                         }
                     } else {
-                        mp4downloader.util.error(mp4downloader.util.getString("mp4downloader", "error_ajax", ["Vimeo", Req.status.toString()]), "videoID: " + videoID + (referURL ? "\nRefer URL: " + referURL : ""));
+                        mp4downloader.utils.error(mp4downloader.utils.getString("mp4downloader", "error_ajax", ["Vimeo", Req.status.toString()]), "videoID: " + videoID + (referURL ? "\nRefer URL: " + referURL : ""));
                     }
                 }
             };
@@ -986,19 +986,19 @@ var mp4downloader = {
             Req.onreadystatechange = function () {
                 if (Req.readyState == 4) {
                     if (Req.status == 200 && Req.responseText) {
-                        mp4downloader.util.log("Google Video AJAX received");
-                        var videoURL = mp4downloader.util.getFromString(Req.responseText, "If the download does not start automatically, right-click <a href=", ">");
+                        mp4downloader.utils.log("Google Video AJAX received");
+                        var videoURL = mp4downloader.utils.getFromString(Req.responseText, "If the download does not start automatically, right-click <a href=", ">");
                         if (videoURL) {
                             videoURL = videoURL.replace(/&amp;/g, "&");
-                            var videoTitle = mp4downloader.util.getFromString(Req.responseText, "<title>", "</title>");
+                            var videoTitle = mp4downloader.utils.getFromString(Req.responseText, "<title>", "</title>");
                             mp4downloader.saveVideo(videoURL, "http://video.google.com/videoplay?docid=" + docid, videoTitle, null, "Google Video", false);
                         } else {
                             // We will need to localize this if we ever re-enable Google Video support
-                            //mp4downloader.util.alert("Error: MP4 Downloader cannot download the current video because it is not from the Google Video website.\nThis can occur when Google searches for videos outside of Google Video.");
-                            mp4downloader.util.alert("Error: MP4 Downloader cannot download the current video because of a change in Google Video code that we do not yet have a fix for.");
+                            //mp4downloader.utils.alert("Error: MP4 Downloader cannot download the current video because it is not from the Google Video website.\nThis can occur when Google searches for videos outside of Google Video.");
+                            mp4downloader.utils.alert("Error: MP4 Downloader cannot download the current video because of a change in Google Video code that we do not yet have a fix for.");
                         }
                     } else {
-                        mp4downloader.util.error(mp4downloader.util.getString("mp4downloader", "error_ajax", ["Google Video", Req.status.toString()]), "docid: " + docid);
+                        mp4downloader.utils.error(mp4downloader.utils.getString("mp4downloader", "error_ajax", ["Google Video", Req.status.toString()]), "docid: " + docid);
                     }
                 }
             };
@@ -1014,21 +1014,21 @@ var mp4downloader = {
             Req.onreadystatechange = function () {
                 if (Req.readyState == 4) {
                     if (Req.status == 200 && Req.responseText) {
-                        mp4downloader.util.log("Facebook Video AJAX received");
+                        mp4downloader.utils.log("Facebook Video AJAX received");
                         
                         function findVar(v) {
-                            v = mp4downloader.util.getFromString(mp4downloader.util.getFromString(Req.responseText, '.addVariable("' + v + '",', '")'), '"') ||
-                                mp4downloader.util.getFromString(mp4downloader.util.getFromString(Req.responseText, '["' + v + '",', '"]'), '"') ||
-                                mp4downloader.util.getFromString(Req.responseText, "&" + v + "=", "&") ||
-                                mp4downloader.util.getFromString(Req.responseText, "&amp;" + v + "=", "&");
+                            v = mp4downloader.utils.getFromString(mp4downloader.utils.getFromString(Req.responseText, '.addVariable("' + v + '",', '")'), '"') ||
+                                mp4downloader.utils.getFromString(mp4downloader.utils.getFromString(Req.responseText, '["' + v + '",', '"]'), '"') ||
+                                mp4downloader.utils.getFromString(Req.responseText, "&" + v + "=", "&") ||
+                                mp4downloader.utils.getFromString(Req.responseText, "&amp;" + v + "=", "&");
                             if (v && typeof v == "string") {
                                 return decodeURIComponent(v.replace(/\\u0025/g, "%").replace(/\+/g, " "));
                             }
                         }
                         
-                        var videoTitle = findVar("video_title") || mp4downloader.util.getString("mp4downloader", "sitevideo", ["Facebook"]);
+                        var videoTitle = findVar("video_title") || mp4downloader.utils.getString("mp4downloader", "sitevideo", ["Facebook"]);
                         if (videoTitle.substring(videoTitle.length - 4) == "[HQ]" || videoTitle.substring(videoTitle.length - 4) == "[HD]") {
-                            videoTitle = mp4downloader.util.trimString(videoTitle.substring(0, videoTitle.length - 4));
+                            videoTitle = videoTitle.substring(0, videoTitle.length - 4).trim();
                         }
                         
                         var videoAuthor = findVar("video_owner_name");
@@ -1038,15 +1038,15 @@ var mp4downloader = {
                         if (videoURL) {
                             mp4downloader.saveVideo(videoURL, "http://www.facebook.com/video/video.php?v=" + videoID, videoTitle, videoAuthor, "Facebook", false);
                         } else {
-                            var temptitle = mp4downloader.util.getFromString(Req.responseText, "<title>", "</title>").toLowerCase();
+                            var temptitle = mp4downloader.utils.getFromString(Req.responseText, "<title>", "</title>").toLowerCase();
                             if (temptitle.substring(0, 5) == "login" || temptitle.substring(0, 6) == "log in" || Req.responseText.indexOf("login.php") != -1) {
-                                mp4downloader.util.alert(mp4downloader.util.getString("mp4downloader", "error_login", ["Facebook"]));
+                                mp4downloader.utils.alert(mp4downloader.utils.getString("mp4downloader", "error_login", ["Facebook"]));
                             } else {
-                                mp4downloader.util.error(mp4downloader.util.getString("mp4downloader", "error_noplay", ["Facebook"]), "Video ID: " + videoID);
+                                mp4downloader.utils.error(mp4downloader.utils.getString("mp4downloader", "error_noplay", ["Facebook"]), "Video ID: " + videoID);
                             }
                         }
                     } else {
-                        mp4downloader.util.error(mp4downloader.util.getString("mp4downloader", "error_ajax", ["Facebook Video", Req.status.toString()]), "videoID: " + videoID);
+                        mp4downloader.utils.error(mp4downloader.utils.getString("mp4downloader", "error_ajax", ["Facebook Video", Req.status.toString()]), "videoID: " + videoID);
                     }
                 }
             };
@@ -1065,7 +1065,7 @@ var mp4downloader = {
             var hash = window.content.location.hash;
             
             // Should we show context menu entry for video page?
-            if (mp4downloader.util.prefs.getBoolPref("contextmenu")) {
+            if (mp4downloader.utils.prefs.getBoolPref("contextmenu")) {
                 var isVideoPage = false;
                 // YouTube
                 if ((host.substring(host.length - 11) == "youtube.com" || host.substring(host.length - 20) == "youtube-nocookie.com") && (path == "/watch" || window.content.document.getElementById("channel-body") || (window.content.document.getElementById("page") && window.content.document.getElementById("page").className.indexOf("channel") != -1))) isVideoPage = true;
@@ -1091,7 +1091,7 @@ var mp4downloader = {
             }
             
             // Should we show context menu entry for video link?
-            if (mp4downloader.util.prefs.getBoolPref("linkcontextmenu") && window.document && window.document.popupNode) {
+            if (mp4downloader.utils.prefs.getBoolPref("linkcontextmenu") && window.document && window.document.popupNode) {
                 var popupTarget = window.document.popupNode;
                 while (popupTarget && popupTarget.nodeName && popupTarget.nodeName.toLowerCase() != "a") {
                     popupTarget = popupTarget.parentNode;
@@ -1631,7 +1631,7 @@ var mp4downloader = {
                 } else {
                     // No clue...
                     // NOTE: We're only logging this (not showing it to user) because it can occur when a subframe on a YT page doesn't have a real URL (it seems to inherit its parent's), and there is definitely no button container inside the iframe
-                    mp4downloader.util.log("No button container inside YouTube page");
+                    mp4downloader.utils.log("No button container inside YouTube page");
                 }
             /*
             // YouTube User Channel
@@ -1644,8 +1644,8 @@ var mp4downloader = {
                     let dlBtn = contentWindow.document.createElement("a");
                     dlBtn.className = "foreground2 video_title_on_hover";
                     dlBtn.href = "javascript:void(0);";
-                    dlBtn.setAttribute("title", mp4downloader.util.getString("mp4downloader", "downloadBtnLabel"));
-                    dlBtn.appendChild(contentWindow.document.createTextNode(mp4downloader.util.getString("mp4downloader", "download")));
+                    dlBtn.setAttribute("title", mp4downloader.utils.getString("mp4downloader", "downloadBtnLabel"));
+                    dlBtn.appendChild(contentWindow.document.createTextNode(mp4downloader.utils.getString("mp4downloader", "download")));
                     dlBtn.addEventListener("click", function () {
                         mp4downloader.mp4download(null, contentWindow);
                     }, false);
@@ -1717,7 +1717,7 @@ var mp4downloader = {
                 }
             }
         } catch (err) {
-            mp4downloader.util.log("embedBtnOnVideo Error: " + err + "\nLine: " + err.lineNumber);
+            mp4downloader.utils.log("embedBtnOnVideo Error: " + err + "\nLine: " + err.lineNumber);
         }
     }
 };
@@ -1728,7 +1728,7 @@ window.addEventListener("load", function () {
     // TODO: Would it be a good idea to do `removeEventListener("load", arguments.callee, false)` or would that just be a waste?
     
     // Import util functions
-    Components.utils.import("resource://mp4downloader/util.jsm", mp4downloader);
+    Components.utils.import("resource://mp4downloader/utils.jsm", mp4downloader);
     
     // Set event listener to show/hide context menu items
     document.getElementById("contentAreaContextMenu").addEventListener("popupshowing", function () {
@@ -1773,7 +1773,7 @@ window.addEventListener("load", function () {
             */
             
             // Search for embedded videos
-            if (mp4downloader.util.prefs.getBoolPref("embedBtn")) {
+            if (mp4downloader.utils.prefs.getBoolPref("embedBtn")) {
                 // Do not search through if we are inside an iframe embed (this is handled by parent page)
                 if (!(contentWindow.top && contentWindow.self && contentWindow.top != contentWindow.self) ||
                     (((host.substring(host.length - 11) != "youtube.com" && host.substring(host.length - 20) != "youtube-nocookie.com") || path.substring(0, 7) != "/embed/") &&
@@ -1785,7 +1785,7 @@ window.addEventListener("load", function () {
             }
             
             // Place button inside video page
-            if (mp4downloader.util.prefs.getBoolPref("embedBtnOnVideo")) {
+            if (mp4downloader.utils.prefs.getBoolPref("embedBtnOnVideo")) {
                 if (mp4downloader.embedBtnOnVideo(contentWindow) == "retry") {
                     // Retry (FB probably isn't loaded correctly yet)
                     if (retryTimeout && retryTimeout < 10000) {
@@ -1810,20 +1810,20 @@ window.addEventListener("load", function () {
     
     // Migrate prefs and add toolbar button if this is the first time
     var isFirstTime = false;
-    if (!mp4downloader.util.prefs.getBoolPref("firstRunComplete")) {
+    if (!mp4downloader.utils.prefs.getBoolPref("firstRunComplete")) {
         // Set var for below
         isFirstTime = true;
         Components.utils.import("resource://mp4downloader/firstrun.jsm", mp4downloader);
         mp4downloader.firstrun.migrateOldPrefs();
         if (mp4downloader.firstrun.addToolbarButton(document)) {
-            mp4downloader.util.prefs.setBoolPref("firstRunComplete", true);
+            mp4downloader.utils.prefs.setBoolPref("firstRunComplete", true);
         }
     }
     
     setTimeout(function () {
-        mp4downloader.util.getVersion(function (currentVersion) {
-            if (isFirstTime || mp4downloader.util.prefs.getCharPref("lastVersion") != currentVersion) {
-                mp4downloader.util.prefs.setCharPref("lastVersion", currentVersion);
+        mp4downloader.utils.getVersion().then(function (currentVersion) {
+            if (isFirstTime || mp4downloader.utils.prefs.getCharPref("lastVersion") != currentVersion) {
+                mp4downloader.utils.prefs.setCharPref("lastVersion", currentVersion);
                 if (!mp4downloader.firstrun) Components.utils.import("resource://mp4downloader/firstrun.jsm", mp4downloader);
                 mp4downloader.firstrun.migratePrefs();
                 mp4downloader.firstrun.openFirstrunPage(currentVersion, gBrowser, isFirstTime);

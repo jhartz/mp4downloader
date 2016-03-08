@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014  Jake Hartz
+    Copyright (C) 2016  Jake Hartz
     This source code is licensed under the GNU General Public License version 3.
     For details, see the LICENSE.txt file.
 */
@@ -7,15 +7,15 @@
 var EXPORTED_SYMBOLS = ["firstrun"];
 
 var mp4downloader = {};
-Components.utils.import("resource://mp4downloader/util.jsm", mp4downloader);
+Components.utils.import("resource://mp4downloader/utils.jsm", mp4downloader);
 
 var firstrun = {
     migratePrefs: function () {
         // Migrate DTA pref from versions prior to 1.3.3
         try {
-            if (mp4downloader.util.prefs.getBoolPref("dta")) {
-                mp4downloader.util.prefs.setIntPref("saveMode", 3);
-                mp4downloader.util.prefs.clearUserPref("dta");
+            if (mp4downloader.utils.prefs.getBoolPref("dta")) {
+                mp4downloader.utils.prefs.setIntPref("saveMode", 3);
+                mp4downloader.utils.prefs.clearUserPref("dta");
             }
         } catch (err) {}
     },
@@ -26,11 +26,12 @@ var firstrun = {
         try {
             var oldPrefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("mp4downloader.");
             
-            if (typeof oldPrefs.getBoolPref("dta") == "boolean" && oldPrefs.getBoolPref("dta") == true) {
-                mp4downloader.util.prefs.setIntPref("saveMode", 3);
+            if (typeof oldPrefs.getBoolPref("dta") == "boolean" &&
+                    oldPrefs.getBoolPref("dta") == true) {
+                mp4downloader.utils.prefs.setIntPref("saveMode", 3);
             }
             if (typeof oldPrefs.getBoolPref("dtaOC") == "boolean") {
-                mp4downloader.util.prefs.setBoolPref("dtaOneClick", oldPrefs.getBoolPref("dtaOC"));
+                mp4downloader.utils.prefs.setBoolPref("dtaOneClick", oldPrefs.getBoolPref("dtaOC"));
             }
             
             // Delete old pref branch
@@ -40,7 +41,7 @@ var firstrun = {
     
     addToolbarButton: function (document) {
         if (!document.getElementById("nav-bar")) {
-            mp4downloader.util.error(mp4downloader.util.getString("mp4downloader", "error_notoolbar"));
+            mp4downloader.utils.error(mp4downloader.utils.getString("mp4downloader", "error_notoolbar"));
             return false;
         }
         
@@ -49,7 +50,9 @@ var firstrun = {
         // In SeaMonkey, the button already exists (in BrowserToolbarPalette)
         if (document.getElementById("mp4downloader_button")) {
             // If it's parent isn't BrowserToolbarPalette, it's already on the toolbar
-            if (document.getElementById("mp4downloader_button").parentNode.id != "BrowserToolbarPalette") return true;
+            if (document.getElementById("mp4downloader_button").parentNode.id != "BrowserToolbarPalette") {
+                return true;
+            }
             
             if (document.getElementById("throbber-box") && document.getElementById("throbber-box").parentNode.id != "BrowserToolbarPalette") {
                 // Insert before SeaMonkey logo
@@ -90,9 +93,9 @@ var firstrun = {
         // Change "1.3.3b1" to "1.3.3"
         var changelogVersion = currentVersion.match(/^([0-9.]+)(.*)$/)[1] || currentVersion;
         if (isFirstTime) {
-            gBrowser.selectedTab = gBrowser.addTab("http://jhartz.github.io/mp4downloader/firefox/firstrun/en.html?browser=" + encodeURIComponent(mp4downloader.util.getBrand()) + "&version=" + encodeURIComponent(changelogVersion));
+            gBrowser.selectedTab = gBrowser.addTab("http://jhartz.github.io/mp4downloader/firefox/firstrun/en.html?browser=" + encodeURIComponent(mp4downloader.utils.getBrand()) + "&version=" + encodeURIComponent(changelogVersion));
         } else {
-            gBrowser.selectedTab = gBrowser.addTab("http://jhartz.github.io/mp4downloader/changelog/firefox/" + encodeURIComponent(changelogVersion) + ".en.html?browser=" + encodeURIComponent(mp4downloader.util.getBrand()));
+            gBrowser.selectedTab = gBrowser.addTab("http://jhartz.github.io/mp4downloader/changelog/firefox/" + encodeURIComponent(changelogVersion) + ".en.html?browser=" + encodeURIComponent(mp4downloader.utils.getBrand()));
         }
     }
 };
