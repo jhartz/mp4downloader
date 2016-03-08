@@ -1,10 +1,10 @@
 # MP4 Downloader
 
-MP4 Downloader is a simple Firefox add-on to download videos from YouTube and similar video sites.
+MP4 Downloader is a simple Firefox add-on to download MP4 videos from YouTube, Dailymotion, and Vimeo.
 
 ## License
 
-    Copyright (C) 2014  Jake Hartz
+    Copyright (C) 2016  Jake Hartz
     MP4 Downloader is licensed under the GNU General Public License version 3.
     For details, see the LICENSE.txt file.
 

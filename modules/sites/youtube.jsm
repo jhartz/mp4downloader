@@ -13,37 +13,36 @@ Components.utils.import("resource://mp4downloader/utils.jsm", mp4downloader);
 /* MP4 DOWNLOADER API */
 
 var youtube = {
-    getFormatsByWindow: function ([contentWindow], callback) {
-        var flashvars;
-        if (isVideoPage(contentWindow) && (flashvars = findFlashvars(contentWindow))) {
-            callback(true, getStreamMap(flashvars));
-        }
-        callback(true, false);
-    },
-    
-    getFormatsById: function ([videoID, referrer], callback) {
-        var flashvars;
-        getFlashvars(videoID, referrer, function (flashvars) {
-            callback(true, getStreamMap(flashvars));
-        }, function (errarr) {
-            callback(false, errarr);
+    getFormatsByWindow: function (contentWindow) {
+        return new Promise(function (resolve, reject) {
+            var flashvars;
+            if (isVideoPage(contentWindow) && (flashvars = findFlashvars(contentWindow))) {
+                resolve(getStreamMap(flashvars));
+            }
+            resolve(false);
         });
     },
     
-    getIdFromLink: function ([url], callback) {
-        callback(false, "Unimplemented");
+    getFormatsById: function (videoID, referrer) {
+        return getFlashvars(videoID, referrer).then(function (flashvars) {
+            return getStreamMap(flashvars);
+        });
     },
     
-    downloadVideoByWindow: function ([contentWindow, quality], callback) {
-        callback(false, "Invalid window");
+    getIdFromLink: function (url) {
+        return Promise.reject("Unimplemented");
     },
     
-    downloadVideoById: function ([videoID, referrer, quality], callback) {
-        callback(false, "Invalid ID");
+    downloadVideoByWindow: function (contentWindow, quality) {
+        return Promise.reject("Unimplemented");
     },
     
-    detectEmbeddedVideos: function ([contentWindow], callback) {
-        callback(false);
+    downloadVideoById: function (videoID, referrer, quality) {
+        return Promise.reject("Unimplemented");
+    },
+    
+    detectEmbeddedVideos: function (contentWindow) {
+        return Promise.reject("Unimplemented");
     }
 };
 
@@ -256,22 +255,24 @@ function findVideoMetadata(flashvars, contentWindow) {
 
 
 // Get flashvars by video ID (AJAX)
-function getFlashvars(videoID, referrer, onsuccess, onerror) {
-    var Req = mp4downloader.utils.getXMLHttpRequest();
-    Req.open("GET", "https://www.youtube.com/get_video_info?video_id=" + videoID + (referrer ? "&eurl=" + encodeURIComponent(referrer) : ""), true);
-    Req.onreadystatechange = function () {
-        if (Req.readyState == 4) {
-            if (Req.status == 200 && Req.responseText) {
-                mp4downloader.utils.log("YouTube AJAX received");
-                var flashvars = "&" + Req.responseText;
-                onsuccess(flashvars);
-            } else {
-                onerror([
-                    mp4downloader.utils.getString("mp4downloader", "error_ajax", ["YouTube", Req.status.toString()]),
-                    "videoID: " + videoID + (referrer ? "\neURL: " + referrer : "")
-                ]);
+function getFlashvars(videoID, referrer) {
+    return new Promise(function (resolve, reject) {
+        var Req = mp4downloader.utils.getXMLHttpRequest();
+        Req.open("GET", "https://www.youtube.com/get_video_info?video_id=" + videoID + (referrer ? "&eurl=" + encodeURIComponent(referrer) : ""), true);
+        Req.onreadystatechange = function () {
+            if (Req.readyState == 4) {
+                if (Req.status == 200 && Req.responseText) {
+                    mp4downloader.utils.log("YouTube AJAX received");
+                    var flashvars = "&" + Req.responseText;
+                    resolve(flashvars);
+                } else {
+                    reject([
+                        mp4downloader.utils.getString("mp4downloader", "error_ajax", ["YouTube", Req.status.toString()]),
+                        "videoID: " + videoID + (referrer ? "\neURL: " + referrer : "")
+                    ]);
+                }
             }
-        }
-    };
-    Req.send(null);
+        };
+        Req.send(null);
+    });
 }
