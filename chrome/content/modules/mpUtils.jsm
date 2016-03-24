@@ -4,14 +4,70 @@
     For details, see the LICENSE.txt file.
 */
 
-var EXPORTED_SYMBOLS = ["utils"];
+var Cc = Components.classes;
+var Ci = Components.interfaces;
+var Cu = Components.utils;
 
+var EXPORTED_SYMBOLS = ["mpUtils"];
+
+Cu.import("resource://gre/modules/Services.jsm");
+
+
+// Holds loaded string bundles
 var bundles = {};
 
-Components.utils.import("resource://gre/modules/Services.jsm");
+// Find and import MP4 Downloader site modules
+Cu.import("chrome://mp4downloader/content/modules/sites.jsm");
+var siteModulesByName = {};
+var siteModules = sites.map(function (site) {
+    Cu.import("chrome://mp4downloader/content/modules/sites/" + site + ".jsm", siteModulesByName);
+    return siteModulesByName[site];
+});
 
-var utils = {
-    prefs: Services.prefs.getBranch("extensions.mp4downloader."),
+// Our pref branch
+var prefBranch = Services.prefs.getBranch("extensions.mp4downloader."),
+    defaultPrefBranch = Services.prefs.getDefaultBranch("extensions.mp4downloader.");
+
+
+var mpUtils = {
+    // Easy pref access
+    prefs: {
+        getIntPref: (name) => prefBranch.getIntPref(name),
+        setIntPref: (name, value) => prefBranch.setIntPref(name, value),
+        
+        getBoolPref: (name) => prefBranch.getBoolPref(name),
+        setBoolPref: (name, value) => prefBranch.setBoolPref(name, value),
+        
+        // These should handle Unicode properly
+        getStringPref: (name) => {
+            return prefBranch.getComplexValue(name, Ci.nsISupportsString).data;
+        },
+        setStringPref: (name, value) => {
+            let string = Cc["@mozilla.org/supports-string;1"].createInstance(Ci.nsISupportsString);
+            string.data = value;
+            prefBranch.setComplexValue(name, Ci.nsISupportsString, string);
+        },
+        
+        setDefaultPref: (name, value) => {
+            switch (typeof value) {
+                case "number":
+                    defaultPrefBranch.setIntPref(name, value);
+                    return;
+                case "boolean":
+                    defaultPrefBranch.setBoolPref(name, value);
+                    return;
+                case "string":
+                    let string = Cc["@mozilla.org/supports-string;1"].createInstance(Ci.nsISupportsString);
+                    string.data = value;
+                    defaultPrefBranch.setComplexValue(name, Ci.nsISupportsString, string);
+                    return;
+            }
+        }
+    },
+    
+    // Access to site module instances
+    siteModules: siteModules,
+    siteModulesByName: siteModulesByName,
     
     /**
      * Log an error or message.
@@ -35,6 +91,17 @@ var utils = {
     confirm: function (msg) {
         if (!msg) return;
         return Services.prompt.confirmEx(null, "MP4 Downloader", msg, Services.prompt.STD_YES_NO_BUTTONS, null, null, null, null, {}) == 0;
+    },
+    
+    /**
+     * Create a site error object for later reporting.
+     * (used by Video Site Modules)
+     */
+    createSiteError: function (localizedMsg, extraData) {
+        let err = new Error(localizedMsg);
+        err.mp4downloaderSiteError = true;
+        err.mp4downloaderExtraData = extraData;
+        return err;
     },
     
     /**
@@ -70,11 +137,22 @@ var utils = {
     /**
      * Get a string from a string bundle, optionally from a formatted string.
      */
-    getString: function (bundlename, name, formats) {
+    getString: function (bundlename, name, formats, isGlobal) {
         if (!bundles.hasOwnProperty(bundlename)) {
-            bundles[bundlename] = Services.strings.createBundle("chrome://mp4downloader/locale/" + bundlename + ".properties")
+            let bundleURI = isGlobal ? bundlename :
+                    "chrome://mp4downloader/locale/" + bundlename + ".properties";
+            
+            // From MDN:
+            // https://developer.mozilla.org/en-US/Add-ons/How_to_convert_an_overlay_extension_to_restartless#Step_10_Bypass_cache_when_loading_properties_files
+            /* HACK: The string bundle cache is cleared on addon shutdown, however it doesn't appear to do so reliably.
+               Errors can erratically happen on next load of the same file in certain instances. (at minimum, when strings are added/removed)
+               The apparently accepted solution to reliably load new versions is to always create bundles with a unique URL so as to bypass the cache.
+               This is accomplished by passing a random number in a parameter after a '?'. (this random ID is otherwise ignored)
+               The loaded string bundle is still cached on startup and should still be cleared out of the cache on addon shutdown.
+               This just bypasses the built-in cache for repeated loads of the same path so that a newly installed update loads cleanly. */
+            bundles[bundlename] = Services.strings.createBundle(bundleURL + "?" + Math.random());
         }
-        var bundle = bundles[bundlename];
+        let bundle = bundles[bundlename];
         try {
             if (formats) {
                 return bundle.formatStringFromName(name, formats, formats.length);
@@ -91,7 +169,7 @@ var utils = {
      */
     getFromString: function (theString, beginStr, endStr) {
         if (typeof theString == "string" && beginStr && theString.indexOf(beginStr) != -1) {
-            var fixedString = theString.substring(theString.indexOf(beginStr) + beginStr.length);
+            let fixedString = theString.substring(theString.indexOf(beginStr) + beginStr.length);
             if (endStr && fixedString.indexOf(endStr) != -1) {
                 fixedString = fixedString.substring(0, fixedString.indexOf(endStr));
             }
@@ -213,11 +291,11 @@ var utils = {
             if (typeof base == "string" && base.length > 0) {
                 base = Services.io.newURI(base, null, null);
             }
-            if (!(base && base instanceof Components.interfaces.nsIURI)) base = null;
+            if (!(base && base instanceof Ci.nsIURI)) base = null;
             
-            return Services.io.newURI(path, null, base).QueryInterface(Components.interfaces.nsIURL);
-        } else if (path instanceof Components.interfaces.nsIURI) {
-            return path.QueryInterface(Components.interfaces.nsIURL);
+            return Services.io.newURI(path, null, base).QueryInterface(Ci.nsIURL);
+        } else if (path instanceof Ci.nsIURI) {
+            return path.QueryInterface(Ci.nsIURL);
         } else {
             return path;
         }
@@ -228,9 +306,9 @@ var utils = {
      * parsed query string).
      */
     getURLParts: function (location, base) {
-        var url = this.makeURL(location, base);
+        let url = this.makeURL(location, base);
         
-        var query = {};
+        let query = {};
         url.query.split("&").forEach(function (value) {
             if (value.indexOf("=") != -1) {
                 query[decodeURIComponent(value.substring(0, value.indexOf("=")))] = decodeURIComponent(value.substring(value.indexOf("=") + 1));
@@ -257,26 +335,30 @@ var utils = {
     },
     
     /**
-     * Get the name of the current product.
+     * Get the name of the browser we're in.
      */
     getBrand: function () {
-        if (typeof this.brandstrings == "undefined") {
-            this.brandstrings = Services.strings.createBundle("chrome://branding/locale/brand.properties");
-        }
-        return this.brandstrings.GetStringFromName("brandShortName");
+        return this.getString("chrome://branding/locale/brand.properties", "brandShortName", null, true);
     },
     
     /**
      * Get the MP4 Downloader version we have.
      *
+     * @param {boolean} [stripSuffix] - Whether to leave just the version
+     *        number, with no other suffix.
+     *
      * @return {Promise.<string>} The MP4 Downloader version.
      */
-    getVersion: function (callback) {
+    getVersion: function (stripSuffix) {
         return new Promise(function (resolve, reject) {
             try {
-                Components.utils.import("resource://gre/modules/AddonManager.jsm");
+                Cu.import("resource://gre/modules/AddonManager.jsm");
                 AddonManager.getAddonByID("mp4downloader@jeff.net", function (addon) {
-                    resolve(addon.version);
+                    let version = addon.version;
+                    if (stripSuffix) {
+                        version = version.match(/^([0-9.]+)(.*)$/)[1] || version;
+                    }
+                    resolve(version);
                 });
             } catch (err) {
                 reject(err);

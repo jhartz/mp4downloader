@@ -6,4 +6,3 @@ https://github.com/jhartz/mp4downloader/wiki/Video-Site-Module
 TODO
 ====
 
-- In some util jsm, add a SiteError constructor (that inherits from Error) that takes 2 params: a localized description, and a string with more info (used if an error report is sent), all suitable for use in a Promise rejection.

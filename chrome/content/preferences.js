@@ -4,7 +4,7 @@
     For details, see the LICENSE.txt file.
 */
 
-var mp4downloader = {};
+Components.utils.import("chrome://mp4downloader/content/modules/mpUtils.jsm");
 
 var mp4downloader_preferences = {
     checkDTA: function () {
@@ -106,7 +106,7 @@ var mp4downloader_preferences = {
     
     chooseFolder: function () {
         var fp = Components.classes["@mozilla.org/filepicker;1"].createInstance(Components.interfaces.nsIFilePicker);
-        fp.init(window, mp4downloader.utils.getString("preferences", "choosefolder"), Components.interfaces.nsIFilePicker.modeGetFolder);
+        fp.init(window, mpUtils.getString("preferences", "choosefolder"), Components.interfaces.nsIFilePicker.modeGetFolder);
         fp.appendFilters(Components.interfaces.nsIFilePicker.filterAll);
         
         // First try to open what's currently configured
@@ -161,7 +161,7 @@ var mp4downloader_preferences = {
     // (called from onload code)
     updateLabel: function (currentVersion) {
         if (currentVersion) {
-            document.getElementById("titleLabel").setAttribute("value", mp4downloader.utils.getString("preferences", "nameversion", [currentVersion]));
+            document.getElementById("titleLabel").setAttribute("value", mpUtils.getString("preferences", "nameversion", [currentVersion]));
             
             // Add link to changelog
             var changelogVersion = currentVersion.match(/^([0-9.]+)(.*)$/); // to change "1.3.3b1" to "1.3.3"
@@ -175,8 +175,6 @@ var mp4downloader_preferences = {
 };
 
 window.addEventListener("load", function () {
-    Components.utils.import("resource://mp4downloader/utils.jsm", mp4downloader);
-    
     // Set title at top
     try {
         if (Components.classes["@mozilla.org/extensions/manager;1"] && Components.interfaces.nsIExtensionManager) {
