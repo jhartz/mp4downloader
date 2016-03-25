@@ -150,7 +150,7 @@ var mpUtils = {
                This is accomplished by passing a random number in a parameter after a '?'. (this random ID is otherwise ignored)
                The loaded string bundle is still cached on startup and should still be cleared out of the cache on addon shutdown.
                This just bypasses the built-in cache for repeated loads of the same path so that a newly installed update loads cleanly. */
-            bundles[bundlename] = Services.strings.createBundle(bundleURL + "?" + Math.random());
+            bundles[bundlename] = Services.strings.createBundle(bundleURI + "?" + Math.random());
         }
         let bundle = bundles[bundlename];
         try {

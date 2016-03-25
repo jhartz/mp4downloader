@@ -10,9 +10,6 @@ var Cu = Components.utils;
 
 Cu.import("resource://gre/modules/Services.jsm");
 
-Cu.import("chrome://mp4downloader/content/modules/mpUtils.jsm");
-Cu.import("chrome://mp4downloader/content/modules/mpWindowHandler.jsm");
-
 
 const SITE_ROOT = "https://jhartz.github.io/mp4downloader/";
 
@@ -84,6 +81,10 @@ function install(data, reason) {}
 function uninstall(data, reason) {}
 
 function startup(data, reason) {
+    // Import modules
+    Cu.import("chrome://mp4downloader/content/modules/mpUtils.jsm");
+    Cu.import("chrome://mp4downloader/content/modules/mpWindowHandler.jsm");
+    
     // Set default prefs (NOTE: not user prefs)
     Object.keys(DEFAULT_PREFS).forEach(function (name) {
         mpUtils.prefs.setDefaultPref(name, DEFAULT_PREFS[name]);
@@ -99,17 +100,11 @@ function startup(data, reason) {
     // Load into all existing browser windows
     let enumerator = Services.wm.getEnumerator("navigator:browser");
     while (enumerator.hasMoreElements()) {
-        mpWindowHandler.loadWindow(enumerator.getNext());
+        mpWindowHandler.loadWindow(enumerator.getNext(), reason == ADDON_INSTALL);
     }
     
     // Listen for new windows
     Services.ww.registerNotification(windowWatcher);
-    
-    // Add the toolbar button, if necessary
-    if (reason == ADDON_INSTALL) {
-        let win = Services.wm.getMostRecentWindow("navigator:browser");
-        if (win) mpWindowHandler.addToolbarButton(win);
-    }
     
     // Open first run or changelog pages, if necessary
     var urlPromise;
@@ -134,7 +129,7 @@ function shutdown(data, reason) {
     let win;
     while (enumerator.hasMoreElements()) {
         if (win = enumerator.getNext()) {
-            mpWindowHandler.unloadWindow(win)
+            mpWindowHandler.unloadWindow(win);
         }
     }
     
@@ -152,6 +147,10 @@ function shutdown(data, reason) {
     // HACK WARNING: The Addon Manager does not properly clear all addon related caches on update;
     //               in order to fully update images and locales, their caches need clearing here
     Services.obs.notifyObservers(null, "chrome-flush-caches", null);
+    
+    // Unload modules
+    Cu.unload("chrome://mp4downloader/content/modules/mpUtils.jsm");
+    Cu.unload("chrome://mp4downloader/content/modules/mpWindowHandler.jsm");
 }
 
 /* WINDOW LOADING/UNLOADING CODE */

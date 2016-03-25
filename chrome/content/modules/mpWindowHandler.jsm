@@ -8,7 +8,7 @@ var Cc = Components.classes;
 var Ci = Components.interfaces;
 var Cu = Components.utils;
 
-var EXPORTED_SYMBOLS = ["mpWindowHandle"];
+var EXPORTED_SYMBOLS = ["mpWindowHandler"];
 
 Cu.import("chrome://mp4downloader/content/modules/mpUtils.jsm");
 
@@ -21,8 +21,12 @@ var mpWindowHandler = {
 
 /**
  * Load MP4 Downloader into a browser window.
+ *
+ * @param win - The chrome window to load into.
+ * @param {boolean} [isFirstRun] - Whether this is the first time the add-on is
+ *        being run (tells us to add the button to the toolbar).
  */
-function loadWindow(win) {
+function loadWindow(win, isFirstRun) {
     if (win._MP4DOWNLOADER) {
         // We've already been loaded into this window
         return;
@@ -48,17 +52,21 @@ function loadWindow(win) {
     // Inject toolbar button
     let button = elem("toolbarbutton", {
         id: "mp4downloader_button",
-        className: "toolbarbutton-1",
+        type: "button",
+        removable: "true",
+        className: "toolbarbutton-1 chromeclass-toolbar-additional",
         label: mpUtils.getString("mp4downloader", "toolbarbutton_label"),
         tooltiptext: mpUtils.getString("mp4downloader", "toolbarbutton_tooltiptext")
     }, function (event) {
         // Clicked!
         win.alert("MP4 Downloader Toolbar Button Clicked!!");
     });
-    win.document.getElementById("BrowserToolbarPalette").appendChild(button);
+    addToolbarButton(win, button, isFirstRun);
     
     // Inject video page context menu button
-    let pageButtonBefore = win.document.getElementById("context-bookmarkpage") || null;
+    let pageButtonBefore = win.document.getElementById("context-sharepage") ||
+                           win.document.getElementById("context-savepage") ||
+                           null;
     let pageButton = elem("menuitem", {
         id: "mp4downloader_contextmenu",
         label: mpUtils.getString("mp4downloader", "contextmenu_label")
@@ -99,6 +107,8 @@ function loadWindow(win) {
 
 /**
  * Unload MP4 Downloader from a browser window.
+ *
+ * @param win - The chrome window to unload from.
  */
 function unloadWindow(win) {
     if (!win._MP4DOWNLOADER) {
@@ -122,17 +132,41 @@ function unloadWindow(win) {
 
 /**
  * Add the MP4 Downloader toolbar button to the current toolbar set.
+ *
+ * @param win - The browser window to add the toolbar button to.
+ * @param button - The toolbar button to add (XUL toolbarbutton).
+ * @param {boolean} [addToToolbar] - Whether to add the button to the current
+ *        toolbar, even if it is not already there.
  */
-function addToolbarButton(win) {
-    let document = win.document;
-    
-    if (!document.getElementById("nav-bar")) {
+function addToolbarButton(win, button, addToToolbar) {
+    let toolbar = win.document.getElementById("nav-bar"),
+        palette = win.document.getElementById("navigator-toolbox").palette;
+    if (!toolbar || !palette) {
         mpUtils.error(mpUtils.getString("mp4downloader", "error_notoolbar"));
-        return false;
+        return;
     }
     
-    var navBar = document.getElementById("nav-bar");
+    palette.appendChild(button);
     
+    let currentSet = toolbar.getAttribute("currentset").split(","),
+        index = currentSet.indexOf(button.id);
+    if (index == -1) {
+        // Add to the toolbar if firstrun
+        if (addToToolbar) {
+            toolbar.appendChild(button);
+            toolbar.setAttribute("currentset", toolbar.currentSet);
+            win.document.persist(toolbar.id, "currentset");
+        }
+    } else {
+        // Our button is in the currentset; find the position and insert the button there
+        let before = null;
+        for (let i = index + 1; i < currentSet.length; i++) {
+            if ((before = win.document.getElementById(currentSet[i]))) break;
+        }
+        toolbar.insertItem(button.id, before);
+    }
+    
+    /*
     // In SeaMonkey, the button already exists (in BrowserToolbarPalette)
     if (document.getElementById("mp4downloader_button")) {
         // If its parent isn't BrowserToolbarPalette, it's already on the toolbar
@@ -172,6 +206,7 @@ function addToolbarButton(win) {
     navBar.setAttribute("currentset", navBar.currentSet);
     document.persist("nav-bar", "currentset");
     return true;
+    */
 }
 
 
@@ -191,16 +226,15 @@ function checkLink(win) {
         return null;
     }
     
-    let href = popupTarget.getAttribute("href");
-    // Check for some "invalid" link URLs
-    if (href.substring(0, 11) == "javascript:") return null;
-    if (href.substring(0, 7) == "mailto:") return null;
-    if (href.substring(0, 6) == "about:") return null;
-    if (href.substring(0, 1) == "#") return null;
-    
     // Woohoo, we found a real link! Normalize it
     let linkURL = mpUtils.makeURL(popupTarget.getAttribute("href"), win.content.location.href).spec;
     
+    // If it's not a "full" URL, then we're done
+    if (linkURL.indexOf("://") == -1) {
+        return linkURL;
+    }
+    
+    // Normalize some common issues with the URL
     let linkHost = mpUtils.getFromString(linkURL, "://", "/");
     let linkPath = mpUtils.getFromString(linkURL, "://");
     linkPath = linkPath.substring(linkPath.indexOf("/"));

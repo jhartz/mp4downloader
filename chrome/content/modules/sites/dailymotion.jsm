@@ -212,7 +212,7 @@ function ajax(videoID) {
         };
         Req.send(null);
     });
-},
+}
 
 
 
