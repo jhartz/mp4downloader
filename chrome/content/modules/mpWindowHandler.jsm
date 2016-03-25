@@ -50,6 +50,7 @@ function loadWindow(win, isFirstRun) {
     }
     
     // Inject toolbar button
+    var TIME_inited = new Date();
     let button = elem("toolbarbutton", {
         id: "mp4downloader_button",
         type: "button",
@@ -59,7 +60,7 @@ function loadWindow(win, isFirstRun) {
         tooltiptext: mpUtils.getString("mp4downloader", "toolbarbutton_tooltiptext")
     }, function (event) {
         // Clicked!
-        win.alert("MP4 Downloader Toolbar Button Clicked!!");
+        win.alert("MP4 Downloader Toolbar Button Clicked!! - " + TIME_inited);
     });
     addToolbarButton(win, button, isFirstRun);
     
@@ -109,8 +110,10 @@ function loadWindow(win, isFirstRun) {
  * Unload MP4 Downloader from a browser window.
  *
  * @param win - The chrome window to unload from.
+ * @param {boolean} [upgradeOnly] - Whether we're going down for upgrade only
+ *        (used to try and combat some toolbar button weirdness).
  */
-function unloadWindow(win) {
+function unloadWindow(win, upgradeOnly) {
     if (!win._MP4DOWNLOADER) {
         // We aren't loaded in this window
         return;
@@ -119,8 +122,13 @@ function unloadWindow(win) {
     // Remove listener for when the context menu is showing
     win.document.getElementById("contentAreaContextMenu").removeEventListener("popupshowing", win._MP4DOWNLOADER.onPopupShowing, false);
     
-    // Remove injected elements
-    ["mp4downloader_button", "mp4downloader_contextmenu", "mp4downloader_linkcontextmenu"].forEach(function (id) {
+    // Remove injected elements, if necessary
+    [
+        upgradeOnly ? undefined : "mp4downloader_button",
+        "mp4downloader_contextmenu",
+        "mp4downloader_linkcontextmenu"
+    ].forEach(function (id) {
+        if (!id) return;
         let elem = win.document.getElementById(id);
         if (!elem) return;
         elem.parentNode.removeChild(elem);
@@ -146,14 +154,25 @@ function addToolbarButton(win, button, addToToolbar) {
         return;
     }
     
+    // If the button is already in the window, replace it
+    let oldButton = win.document.getElementById(button.id);
+    if (oldButton) {
+        oldButton.parentNode.replaceChild(button, oldButton);
+        // And, we're done here
+        return;
+    }
+    
     palette.appendChild(button);
     
+    // Based roughly on...
+    // http://blog.salsitasoft.com/adding-a-toolbar-button-in-a-bootstrapped-firefox-extension/
     let currentSet = toolbar.getAttribute("currentset").split(","),
         index = currentSet.indexOf(button.id);
     if (index == -1) {
         // Add to the toolbar if firstrun
         if (addToToolbar) {
-            toolbar.appendChild(button);
+            let relativeParent = win.document.getElementById("nav-bar-customization-target") || toolbar;
+            relativeParent.appendChild(button);
             toolbar.setAttribute("currentset", toolbar.currentSet);
             win.document.persist(toolbar.id, "currentset");
         }

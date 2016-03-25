@@ -129,7 +129,7 @@ function shutdown(data, reason) {
     let win;
     while (enumerator.hasMoreElements()) {
         if (win = enumerator.getNext()) {
-            mpWindowHandler.unloadWindow(win);
+            mpWindowHandler.unloadWindow(win, reason == ADDON_UPGRADE || reason == ADDON_DOWNGRADE);
         }
     }
     
