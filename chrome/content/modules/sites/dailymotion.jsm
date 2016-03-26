@@ -1,12 +1,14 @@
 /*
-    Copyright (C) 2016  Jake Hartz
-    This source code is licensed under the GNU General Public License version 3.
-    For details, see the LICENSE.txt file.
-*/
+ * Copyright (C) 2016  Jake Hartz
+ * This source code is licensed under the GNU General Public License version 3.
+ * For details, see the LICENSE.txt file.
+ */
 
-var Cc = Components.classes;
-var Ci = Components.interfaces;
-var Cu = Components.utils;
+// See: https://github.com/jhartz/mp4downloader/wiki/Video-Site-Module
+
+const Cc = Components.classes;
+const Ci = Components.interfaces;
+const Cu = Components.utils;
 
 var EXPORTED_SYMBOLS = ["dailymotion"];
 
@@ -17,13 +19,18 @@ Cu.import("chrome://mp4downloader/content/modules/mpUtils.jsm");
 
 var dailymotion = {
     testWindow: function (contentWindow, downloadButtonCallback) {
+        /////////////////////
+        return false;
+        /////////////////////
+        
+        
         return new Promise(function (resolve, reject) {
             if (!isVideoPage(contentWindow)) {
                 resolve(false);
                 return;
             }
             
-            var flashvars = findFlashvars(contentWindow);
+            let flashvars = findFlashvars(contentWindow);
             if (flashvars) {
                 resolve(parseSequence(flashvars));
             } else {
@@ -59,7 +66,7 @@ var dailymotion = {
 
 /* DAILYMOTION-SPECIFIC FUNCTIONS */
 
-var FORMAT_NAMES = {
+const FORMAT_NAMES = {
     "sdURL": "Standard Quality",
     "hqURL": "High Quality",
     "hdURL": "Higher Quality",
@@ -68,7 +75,7 @@ var FORMAT_NAMES = {
 };
 
 function isVideoPage(contentWindow) {
-    var url = mpUtils.getURLParts(contentWindow.location);
+    let url = mpUtils.getURLParts(contentWindow.location);
     return (
         host.substring(host.length - 15) == "dailymotion.com" &&
         path.substring(0, 6) == "/video"

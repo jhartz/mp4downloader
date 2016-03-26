@@ -1,16 +1,19 @@
 /*
-    Copyright (C) 2016  Jake Hartz
-    This source code is licensed under the GNU General Public License version 3.
-    For details, see the LICENSE.txt file.
-*/
+ * Copyright (C) 2016  Jake Hartz
+ * This source code is licensed under the GNU General Public License version 3.
+ * For details, see the LICENSE.txt file.
+ *
+ * mpWindowHandler: Functionality related to loading MP4 Downloader UI elements
+ */
 
-var Cc = Components.classes;
-var Ci = Components.interfaces;
-var Cu = Components.utils;
+const Cc = Components.classes;
+const Ci = Components.interfaces;
+const Cu = Components.utils;
 
 var EXPORTED_SYMBOLS = ["mpWindowHandler"];
 
 Cu.import("chrome://mp4downloader/content/modules/mpUtils.jsm");
+Cu.import("chrome://mp4downloader/content/modules/mpContentHandler.jsm");
 
 var mpWindowHandler = {
     loadWindow: loadWindow,
@@ -104,6 +107,19 @@ function loadWindow(win, isFirstRun) {
     
     // Listen for when the context menu is showing
     win.document.getElementById("contentAreaContextMenu").addEventListener("popupshowing", win._MP4DOWNLOADER.onPopupShowing, false);
+    
+    // Handler for when a browser tab/page is loaded
+    win._MP4DOWNLOADER.onContentLoaded = function (event) {
+        if (event && event.originalTarget && event.originalTarget instanceof win.HTMLDocument) {
+            //var contentDocument = event.originalTarget.wrappedJSObject || event.originalTarget;
+            var contentDocument = event.originalTarget;
+            var contentWindow = contentDocument.defaultView;
+            if (contentWindow) {
+                mpContentHandler.loadContentWindow(contentWindow);
+            }
+        }
+    };
+    win.gBrowser.addEventListener("DOMContentLoaded", win._MP4DOWNLOADER.onContentLoaded, false);
 }
 
 /**
@@ -118,6 +134,9 @@ function unloadWindow(win, upgradeOnly) {
         // We aren't loaded in this window
         return;
     }
+    
+    // Remove listener for browser web pages
+    win.gBrowser.removeEventListener("DOMContentLoaded", win._MP4DOWNLOADER.onContentLoaded, false);
     
     // Remove listener for when the context menu is showing
     win.document.getElementById("contentAreaContextMenu").removeEventListener("popupshowing", win._MP4DOWNLOADER.onPopupShowing, false);

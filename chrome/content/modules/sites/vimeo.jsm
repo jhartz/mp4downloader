@@ -1,12 +1,14 @@
 /*
-    Copyright (C) 2016  Jake Hartz
-    This source code is licensed under the GNU General Public License version 3.
-    For details, see the LICENSE.txt file.
-*/
+ * Copyright (C) 2016  Jake Hartz
+ * This source code is licensed under the GNU General Public License version 3.
+ * For details, see the LICENSE.txt file.
+ */
 
-var Cc = Components.classes;
-var Ci = Components.interfaces;
-var Cu = Components.utils;
+// See: https://github.com/jhartz/mp4downloader/wiki/Video-Site-Module
+
+const Cc = Components.classes;
+const Ci = Components.interfaces;
+const Cu = Components.utils;
 
 var EXPORTED_SYMBOLS = ["vimeo"];
 
@@ -17,6 +19,11 @@ Cu.import("chrome://mp4downloader/content/modules/mpUtils.jsm");
 
 var vimeo = {
     testWindow: function (contentWindow, downloadButtonCallback) {
+        /////////////////////
+        return false;
+        /////////////////////
+        
+        
         return new Promise(function (resolve, reject) {
             if (!isVideoPage(contentWindow)) {
                 resolve(false);

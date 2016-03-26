@@ -1,12 +1,12 @@
 /*
-    Copyright (c) 2016 Jake Hartz
-    This source code is licensed under the GNU General Public License version 3.
-    For details, see the LICENSE.txt file.
-*/
+ * Copyright (C) 2016  Jake Hartz
+ * This source code is licensed under the GNU General Public License version 3.
+ * For details, see the LICENSE.txt file.
+ */
 
-var Cc = Components.classes;
-var Ci = Components.interfaces;
-var Cu = Components.utils;
+const Cc = Components.classes;
+const Ci = Components.interfaces;
+const Cu = Components.utils;
 
 Cu.import("resource://gre/modules/Services.jsm");
 
@@ -107,7 +107,7 @@ function startup(data, reason) {
     Services.ww.registerNotification(windowWatcher);
     
     // Open first run or changelog pages, if necessary
-    var urlPromise;
+    let urlPromise;
     if (reason == ADDON_INSTALL) urlPromise = getFirstrunURL();
     if (reason == ADDON_UPGRADE) urlPromise = getChangelogURL();
     if (urlPromise) {

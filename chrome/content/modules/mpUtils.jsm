@@ -1,12 +1,14 @@
 /*
-    Copyright (C) 2016  Jake Hartz
-    This source code is licensed under the GNU General Public License version 3.
-    For details, see the LICENSE.txt file.
-*/
+ * Copyright (C) 2016  Jake Hartz
+ * This source code is licensed under the GNU General Public License version 3.
+ * For details, see the LICENSE.txt file.
+ *
+ * mpUtils: General utility functions for MP4 Downloader
+ */
 
-var Cc = Components.classes;
-var Ci = Components.interfaces;
-var Cu = Components.utils;
+const Cc = Components.classes;
+const Ci = Components.interfaces;
+const Cu = Components.utils;
 
 var EXPORTED_SYMBOLS = ["mpUtils"];
 
@@ -78,7 +80,7 @@ var mpUtils = {
     },
     
     /**
-     * Show an error or message.
+     * Show an error or message to the user.
      */
     alert: function (msg) {
         if (!msg) return;
@@ -86,7 +88,7 @@ var mpUtils = {
     },
     
     /**
-     * Show a yes/no dialog.
+     * Show a yes/no dialog to the user.
      */
     confirm: function (msg) {
         if (!msg) return;
@@ -94,8 +96,15 @@ var mpUtils = {
     },
     
     /**
-     * Create a site error object for later reporting.
+     * Create a site error object for later reporting. If extraData is
+     * provided, then it is assumed that this is a bug that should be reported.
      * (used by Video Site Modules)
+     *
+     * @param {string} localizedMsg - The error message to show the user.
+     * @param {Object} [extraData] - Any debugging data, if applicable. Must be
+     *        JSON-encodable.
+     *
+     * @return {Error} An Error instance that also contains the provided data.
      */
     createSiteError: function (localizedMsg, extraData) {
         let err = new Error(localizedMsg);
@@ -105,22 +114,22 @@ var mpUtils = {
     },
     
     /**
-     * Show and optionally report an error message.
+     * Show an error message to the user and give them the option to report it.
      */
     error: function (msg, extradata) {
         this.alert(msg + "\n\n" + this.getString("mp4downloader", "reportmsg"));
         // NOTE: below is if someday we get an online automatic error reporting system in place
         /*
-        var browserWindow = Services.wm.getMostRecentWindow("navigator:browser");
+        let browserWindow = Services.wm.getMostRecentWindow("navigator:browser");
         if (!browserWindow) {
-            this.alert(msg);
+            mpUtils.alert(msg);
         } else {
-            if (this.confirm(msg + "\n\n" + this.getString("mp4downloader", "reportmsg"))) {
+            if (mpUtils.confirm(msg + "\n\n" + this.getString("mp4downloader", "reportmsg"))) {
                 // Open new tab with contact page and attempt to pre-fill some data (including extradata)
-                var t = browserWindow.gBrowser.addTab("http://mp4downloader.mozdev.org/drupal/contact");
+                let t = browserWindow.gBrowser.addTab("http://mp4downloader.mozdev.org/drupal/contact");
                 browserWindow.gBrowser.selectedTab = t;
-                var tab = browserWindow.gBrowser.getBrowserForTab(t);
-                var applied = false;
+                let tab = browserWindow.gBrowser.getBrowserForTab(t);
+                let applied = false;
                 tab.addEventListener("load", function () {
                     try {
                         if (!applied) {
@@ -136,12 +145,22 @@ var mpUtils = {
     
     /**
      * Get a string from a string bundle, optionally from a formatted string.
+     *
+     * @param {string} bundleName - Either the full path to a string bundle, or
+     *        the basename of one of MP4 Downloader's string bundles (without
+     *        the ".properties" in the latter case).
+     * @param {string} name - The name of the property or string to get from
+     *        the string bundle.
+     * @param {Array} [formats] - Any parameters to apply when resolving the
+     *        string.
      */
-    getString: function (bundlename, name, formats, isGlobal) {
-        if (!bundles.hasOwnProperty(bundlename)) {
-            let bundleURI = isGlobal ? bundlename :
-                    "chrome://mp4downloader/locale/" + bundlename + ".properties";
-            
+    getString: function (bundleName, name, formats) {
+        if (bundleName.indexOf("/") == -1) {
+            // It's just the name of one of our bundles
+            bundleName = "chrome://mp4downloader/locale/" + bundleName + ".properties";
+        }
+        
+        if (!bundles.hasOwnProperty(bundleName)) {
             // From MDN:
             // https://developer.mozilla.org/en-US/Add-ons/How_to_convert_an_overlay_extension_to_restartless#Step_10_Bypass_cache_when_loading_properties_files
             /* HACK: The string bundle cache is cleared on addon shutdown, however it doesn't appear to do so reliably.
@@ -150,9 +169,10 @@ var mpUtils = {
                This is accomplished by passing a random number in a parameter after a '?'. (this random ID is otherwise ignored)
                The loaded string bundle is still cached on startup and should still be cleared out of the cache on addon shutdown.
                This just bypasses the built-in cache for repeated loads of the same path so that a newly installed update loads cleanly. */
-            bundles[bundlename] = Services.strings.createBundle(bundleURI + "?" + Math.random());
+            bundles[bundleName] = Services.strings.createBundle(bundleName + "?" + Math.random());
         }
-        let bundle = bundles[bundlename];
+        
+        let bundle = bundles[bundleName];
         try {
             if (formats) {
                 return bundle.formatStringFromName(name, formats, formats.length);
@@ -160,24 +180,34 @@ var mpUtils = {
                 return bundle.GetStringFromName(name);
             }
         } catch (err) {
-            return "STRING ERROR " + JSON.stringify([bundlename, name, formats]);
+            return "STRING ERROR " + JSON.stringify([bundleName, name, formats]);
         }
     },
     
     /**
-     * Get a specific portion of a string starting from a certain string and (optionally) ending at a certain string.
+     * Get a specific portion of a string, deliminated by a starting string and
+     * an ending string (each of which is optional).
+     *
+     * @param {string} str - The string to find a substring of.
+     * @param {string} [begin] - The string that marks the start of the portion
+     *        of `str` that we want (not included in the result).
+     * @param {string} [end] - The string that marks the end of the portion
+     *        of `str` that we want (not included in the result).
      */
-    getFromString: function (theString, beginStr, endStr) {
-        if (typeof theString == "string" && beginStr && theString.indexOf(beginStr) != -1) {
-            let fixedString = theString.substring(theString.indexOf(beginStr) + beginStr.length);
-            if (endStr && fixedString.indexOf(endStr) != -1) {
-                fixedString = fixedString.substring(0, fixedString.indexOf(endStr));
-            }
-            return fixedString;
-        } else {
-            // TODO: should we return null? Empty string? something else?
-            return false;
+    getFromString: function (str, begin, end) {
+        str = "" + str;
+        
+        if (begin) {
+            let index = str.indexOf(begin);
+            if (index != -1) str = str.substring(index + begin.length);
         }
+        
+        if (end) {
+            let index = str.indexOf(end);
+            if (index != -1) str = str.substring(0, index);
+        }
+        
+        return str;
     },
     
     /**
@@ -189,7 +219,7 @@ var mpUtils = {
         if (!vars) vars = {};
         
         // Make sure vars are strings
-        for (var v in vars) {
+        for (let v in vars) {
             if (vars.hasOwnProperty(v)) {
                 if (typeof vars[v] != "string") {
                     vars[v] = vars[v].toString();
@@ -198,9 +228,9 @@ var mpUtils = {
         }
         
         // Parse "if" statements
-        // (not needed if we have no vars, so test if the vars serialize to {} - if we have native JSON)
-        if ((typeof JSON == "undefined" || JSON.stringify(vars) != "{}") && str.match(/\[\[if %%([A-Z]+) (is|isnot|i?matches) (.+)\]\](.*)\[\[endif\]\]/)) {
-            var isRunning = true, newStr = "", ifStr = "", ifMatch;
+        // (not needed if we have no vars, so test if the vars serialize to {})
+        if (JSON.stringify(vars) != "{}" && str.match(/\[\[if %%([A-Z]+) (is|isnot|i?matches) (.+)\]\](.*)\[\[endif\]\]/)) {
+            let isRunning = true, newStr = "", ifStr = "", ifMatch;
             do {
                 if (str.match(/\[\[if %%([A-Z]+) (is|isnot|i?matches) (.+)\]\](.*)\[\[endif\]\]/)) {
                     // Add stuff before if statement to newStr, cut it off str, add if statement to ifStr, then cut it off str
@@ -268,7 +298,7 @@ var mpUtils = {
         }
         
         // Parse vars
-        for (var v in vars) {
+        for (let v in vars) {
             if (vars.hasOwnProperty(v)) {
                 while (str.indexOf("%%" + v) != -1) {
                     str = str.replace("%%" + v, vars[v]);
@@ -281,8 +311,14 @@ var mpUtils = {
     },
     
     /**
-     * Return an nsIURL object from a window.location object, a nsIURI instance,
-     * or a string (and optionally a base to base it off of, if path is a string).
+     * Return an nsIURL object from a window.location object, an nsIURI object,
+     * or a string.
+     *
+     * @param {Location|nsIURI|string} path - The original path.
+     * @param {Location|nsIURI|string} [base] - A base path that the original
+     *        path is relative to.
+     *
+     * @return {nsIURL} An nsIURL object representing the path.
      */
     makeURL: function (path, base) {
         if (path.href) path = path.href;
@@ -302,47 +338,118 @@ var mpUtils = {
     },
     
     /**
-     * Prettier version of makeURL above (returns easier-named stuff including
-     * parsed query string).
+     * Prettier version of makeURL above (returns components of the URL in an
+     * easy-to-access way).
+     *
+     * @param {Location|nsIURI|string} path - The original path.
+     * @param {Location|nsIURI|string} [base] - A base path that the original
+     *        path is relative to.
+     *
+     * @return {Object} Parts of the URL, including "href", "protocol",
+     *         "host" (full domain name), "tld" (top-level domain),
+     *         "domain" (top-level and second-level domain),
+     *         "path", "query", and "hash".
      */
-    getURLParts: function (location, base) {
-        let url = this.makeURL(location, base);
+    getURLParts: function (path, base) {
+        let url = this.makeURL(path, base);
         
-        let query = {};
-        url.query.split("&").forEach(function (value) {
-            if (value.indexOf("=") != -1) {
-                query[decodeURIComponent(value.substring(0, value.indexOf("=")))] = decodeURIComponent(value.substring(value.indexOf("=") + 1));
-            } else {
-                query[decodeURIComponent(value)] = "";
-            }
-        });
+        let tldDelim = url.host.lastIndexOf(".");
+        let tld = url.host.substring(tldDelim + 1);
+        
+        let domain = url.host.substring(0, tldDelim);
+        domain = domain.substring(domain.lastIndexOf(".") + 1) + "." + tld;
         
         return {
             href: url.spec,
             protocol: url.scheme,
+            
+            // full domain name
             host: url.host,
+            // top-level domain
+            tld: tld,
+            // top-level and second-level domain
+            domain: domain,
+            
             path: url.filePath,
-            query: query,
+            query: mpUtils.parseQuery(url.query),
             hash: url.ref
         };
     },
     
     /**
-     * Get a new XMLHttpRequest.
+     * Parse a URL-encoded query string.
+     *
+     * @param {string} queryString - The URL-encoded query string.
+     *
+     * @return {Object} The parsed data, organized into key-value pairs.
+     */
+    parseQuery: function (queryString) {
+        let query = {};
+        queryString.split("&").forEach(function (entry) {
+            let key, value = "";
+            let index = entry.indexOf("=");
+            if (index != -1) {
+                key = entry.substring(0, index);
+                value = entry.substring(index + 1).replace(/\+/g, " ");
+            } else {
+                key = entry;
+            }
+            query[decodeURIComponent(key)] = decodeURIComponent(value);
+        });
+        return query;
+    },
+    
+    /**
+     * Get a reference to a new XMLHttpRequest.
      */
     getXMLHttpRequest: function () {
         return new Services.appShell.hiddenDOMWindow.XMLHttpRequest();
     },
     
     /**
-     * Get the name of the browser we're in.
+     * Make an HTTP request.
+     *
+     * @param {string} method - The HTTP method to use.
+     * @param {string} url - The URL to go to.
+     * @param {Object} [headers] - Any request headers to set.
+     * @param {*} [data] - Any data to send with the request.
+     *
+     * @return {Promise.<string>} The response from the server. If the request
+     *         fails, the Promise is rejected, with the reason being the
+     *         XMLHttpRequest instance.
      */
-    getBrand: function () {
-        return this.getString("chrome://branding/locale/brand.properties", "brandShortName", null, true);
+    request: function (method, url, headers, data) {
+        return new Promise(function (resolve, reject) {
+            var req = mpUtils.getXMLHttpRequest();
+            req.open(method, url, true);
+            req.onreadystatechange = function () {
+                if (req.readyState == 4) {
+                    if (req.status == 200 && req.responseText) {
+                        resolve(req.responseText);
+                    } else {
+                        reject(req);
+                    }
+                }
+            };
+            if (headers) {
+                Object.keys(headers).forEach(function (header) {
+                    req.setRequestHeader(header, headers[header]);
+                });
+            }
+            req.send(data || null);
+        });
+
     },
     
     /**
-     * Get the MP4 Downloader version we have.
+     * Get the name of the browser we're in.
+     */
+    getBrand: function () {
+        return this.getString("chrome://branding/locale/brand.properties", "brandShortName");
+    },
+    
+    /**
+     * Get which MP4 Downloader version we have.
      *
      * @param {boolean} [stripSuffix] - Whether to leave just the version
      *        number, with no other suffix.
