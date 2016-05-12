@@ -105,14 +105,8 @@ function saveVideo(win, {
         site: videoSite,
         quality: isHQ
 }) {
-    try {
-        if (typeof videoTitle != "string") {
-            videoTitle = videoTitle.toString();
-        }
-    } catch (err) {
-        videoTitle = mpUtils.getString("mp4downloader", "video");
-    }
-    
+    videoTitle = "" + (videoTitle || mpUtils.getString("mp4downloader", "video"));
+
     let saveMode = mpUtils.prefs.getIntPref("saveMode") || 0;
     let useDTA = false;
     if (saveMode == 3) {
@@ -354,7 +348,7 @@ function promptAndSave(win, targetURL, videoTitle, referrer) {
         win.saveURL(targetURL, "", "", false, false, win.makeURI(referrer), document);
         return true;
     } catch (err) {
-        mpUtil.error(mpUti.getString("mp4downloader", "error_generic", ["promptAndSave", err.toString()]));
+        mpUtils.error(mpUtils.getString("mp4downloader", "error_generic", ["promptAndSave", err.toString()]));
         return false;
     } finally {
         // Set this back to what it was (just in case)
