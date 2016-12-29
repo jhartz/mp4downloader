@@ -1,6 +1,9 @@
 ---
 layout: mp4downloader
 title: Welcome
+
+ads:
+  top: 1
 ---
 ## Welcome to MP4 Downloader!
 
