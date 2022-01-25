@@ -1,13 +1,8 @@
 ---
 layout: mp4downloader
 title: Welcome
-
-ads:
-  top: 1
 ---
 ## Welcome to MP4 Downloader!
-
-<aside class="sidebar"><div style="text-align: center;">Advertisement</div><iframe data-aa="52174" src="//ad.a-ads.com/52174?size=160x600" scrolling="no" style="width: 160px; height: 600px; border: 0px; padding: 0; overflow: hidden" allowtransparency="true"></iframe></aside>
 
 This add-on was originally created to download MP4 videos (compatible with the iPod) from YouTube. Since then, MP4 Downloader's downloading ability has expanded to include other sites (see below). Additionally, this add-on optionally supports downloading high-quality videos from supported sites that offer them.
 
